@@ -28,23 +28,33 @@ const App = () => {
     setName('');
   }
 
+  function handleDelete(id) {
+    // delete item
+    const newList = list.filter((item) => item.id !== id);
+    setList(newList);
+  }
+
   return (
     <div className="App">
-      <h2>Today</h2>
       <h4>{currentMonth} {currentDay}</h4>
 
       <h2>To Do:</h2>
       <List list={list}
         setList={setList}
+        condition={false}
+        onDelete={handleDelete}
       />
       <AddItem
         name={name}
         onChange={handleInputChange}
         onAdd={handleAdd}
       />
+
       <h2>Completed:</h2>
-      <CompList list={list}
+      <List list={list}
         setList={setList}
+        condition={true}
+        onDelete={handleDelete}
       />
     </div>
   );
@@ -59,37 +69,9 @@ const AddItem = ({ name, onChange, onAdd }) => (
   </div>
 );
 
-const List = ({ list, setList }) => (
-  (list.length > 0) ?
-    (<ul>{list.map((item) => (
-      !item.isCompleted ?
-        (<li key={item.id}>
-          <input
-            type="checkbox"
-            id={item.id}
-            checked={item.isCompleted}
-            name={item.name}
-            onChange={e => {
-              setList(list.map(data => {
-                if (item.id === data.id) {
-                  data.isCompleted = !data.isCompleted;
-                }
-                return data;
-              })
-              );
-            }}
-            className="form-check-input"
-          />
-          {item.name}
-        </li>) : null
-    ))
-    }
-    </ul>) : (<p>Your to do list is empty</p>)
-);
-
-const CompList = ({ list, setList }) => (
-  <ul>{list.map((item) => (
-    item.isCompleted ?
+const List = ({ list, setList, condition, onDelete }) => (
+  (<ul>{list.map((item) => (
+    (item.isCompleted == condition) ?
       (<li key={item.id}>
         <input
           type="checkbox"
@@ -108,10 +90,12 @@ const CompList = ({ list, setList }) => (
           className="form-check-input"
         />
         {item.name}
+        <button onClick={() => onDelete(item.id)}>
+          x
+        </button>
       </li>) : null
   ))
-  }
-  </ul>
+  } </ul>)
 );
 
 export default App;
