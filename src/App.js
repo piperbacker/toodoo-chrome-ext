@@ -40,32 +40,34 @@ const App = () => {
       <div className="Header">
         <p id="date">{currentMonth} {currentDay} - {currentYear}</p>
         <div id="hdr-btns">
-          <button id="close-window">x</button>
+          <button id="close-window" onClick={() => (window.close())}>x</button>
           <a href="https://github.com/piperbacker" target="_blank" rel="noreferrer">
             <button id="gthb">g</button>
           </a>
         </div>
       </div>
 
-      <div id="lists">
-        <List title={"To Do:"}
-          list={list}
-          setList={setList}
-          condition={false} //isCompleted = false
-          onDelete={handleDelete}
-        />
-        <AddItem
-          name={name}
-          onChange={handleInputChange}
-          onAdd={handleAdd}
-        />
+      <div className="body">
+        <div id="lists">
+          <List title={"To Do:"}
+            list={list}
+            setList={setList}
+            condition={false} //isCompleted = false
+            onDelete={handleDelete}
+          />
+          <AddItem
+            name={name}
+            onChange={handleInputChange}
+            onAdd={handleAdd}
+          />
 
-        <List title={"Completed:"}
-          list={list}
-          setList={setList}
-          condition={true}  //isCompleted = false
-          onDelete={handleDelete}
-        />
+          <List title={"Completed:"}
+            list={list}
+            setList={setList}
+            condition={true}  //isCompleted = false
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
 
       <div class="Footer">
@@ -76,7 +78,7 @@ const App = () => {
 
 const AddItem = ({ name, onChange, onAdd }) => (
   <div>
-    <input type="text" value={name} onChange={onChange} />
+    <input id="add-item" type="text" value={name} onChange={onChange} />
     <button type="button" id="add-btn" onClick={onAdd}>
       +
     </button>

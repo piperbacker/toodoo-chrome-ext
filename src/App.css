@@ -1,10 +1,11 @@
 .App {
+  box-sizing: border-box;
   width: 400px;
-  height: 600px;
-  outline-style: solid;
-  outline-width: 10px;;
-  outline-color: #ffc8dd;
+  height: 500px;
   text-align: left;
+  outline-style: solid;
+  outline-width: 10px;
+  outline-color: #ffc8dd;
   list-style-type: none;
   font-family: Helvetica;
   background-image: linear-gradient(#cdb4db, #bde0fe);
@@ -22,7 +23,9 @@
 
 #date {
   font-weight: bold;
+  font-size: 15px;
   margin-left: 10px;
+  text-shadow: 1px 1px #aa9da2;
 }
 
 #close-window,
@@ -31,13 +34,16 @@
   float: right;
   margin: 3px;
   margin-top: 8px;
-
 }
 
-body {
-  width: 400px;
-  height: 600px;
+h2 {
+  font-size: 23px;
+  text-shadow: 2px 1px #aa9da2;
+}
 
+.body {
+  height: 465px;
+  overflow: auto;
 }
 
 #lists {
@@ -52,6 +58,7 @@ ul {
 
 li {
   padding-bottom: 5px;
+  font-size: 18px;
 }
 
 button {
@@ -67,13 +74,19 @@ input {
   margin-right: 5px;
 }
 
-input, select, textarea{
-  color: grey;
+#add-item {
+  height: 20px;
+  font-size: 15px;
 }
 
-.checkbox:checked {
-  background-color: green;
-  color:yellow;
+#add-btn {
+  height: 22px;
+}
+
+input,
+select,
+textarea {
+  color: grey;
 }
 
 #delete-btn {
