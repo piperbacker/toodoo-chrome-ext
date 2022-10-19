@@ -14,6 +14,7 @@ const App = () => {
   const currentMonth = today.toLocaleString(
     'default', { month: 'long' }
   );
+  const currentYear = today.getFullYear();
 
   function handleInputChange(event) {
     // track input field's state
@@ -36,26 +37,39 @@ const App = () => {
 
   return (
     <div className="App">
-      <h4>{currentMonth} {currentDay}</h4>
+      <div className="Header">
+        <p id="date">{currentMonth} {currentDay} - {currentYear}</p>
+        <div id="hdr-btns">
+          <button id="close-window">x</button>
+          <a href="https://github.com/piperbacker" target="_blank" rel="noreferrer">
+            <button id="gthb">g</button>
+          </a>
+        </div>
+      </div>
 
-      <h2>To Do:</h2>
-      <List list={list}
-        setList={setList}
-        condition={false}
-        onDelete={handleDelete}
-      />
-      <AddItem
-        name={name}
-        onChange={handleInputChange}
-        onAdd={handleAdd}
-      />
+      <div id="lists">
+        <List title={"To Do:"}
+          list={list}
+          setList={setList}
+          condition={false} //isCompleted = false
+          onDelete={handleDelete}
+        />
+        <AddItem
+          name={name}
+          onChange={handleInputChange}
+          onAdd={handleAdd}
+        />
 
-      <h2>Completed:</h2>
-      <List list={list}
-        setList={setList}
-        condition={true}
-        onDelete={handleDelete}
-      />
+        <List title={"Completed:"}
+          list={list}
+          setList={setList}
+          condition={true}  //isCompleted = false
+          onDelete={handleDelete}
+        />
+      </div>
+
+      <div class="Footer">
+      </div>
     </div>
   );
 };
@@ -63,39 +77,41 @@ const App = () => {
 const AddItem = ({ name, onChange, onAdd }) => (
   <div>
     <input type="text" value={name} onChange={onChange} />
-    <button type="button" onClick={onAdd}>
+    <button type="button" id="add-btn" onClick={onAdd}>
       +
     </button>
   </div>
 );
 
-const List = ({ list, setList, condition, onDelete }) => (
-  (<ul>{list.map((item) => (
-    (item.isCompleted == condition) ?
-      (<li key={item.id}>
-        <input
-          type="checkbox"
-          id={item.id}
-          checked={item.isCompleted}
-          name={item.name}
-          onChange={e => {
-            setList(list.map(data => {
-              if (item.id === data.id) {
-                data.isCompleted = !data.isCompleted;
-              }
-              return data;
-            })
-            );
-          }}
-          className="form-check-input"
-        />
-        {item.name}
-        <button onClick={() => onDelete(item.id)}>
-          x
-        </button>
-      </li>) : null
-  ))
-  } </ul>)
+const List = ({ title, list, setList, condition, onDelete }) => (
+  <>
+    <h2>{title}</h2>
+    <ul>{list.map((item) => (
+      (item.isCompleted == condition) ?
+        (<li key={item.id}>
+          <input
+            type="checkbox"
+            id={item.id}
+            checked={item.isCompleted}
+            name={item.name}
+            onChange={e => {
+              setList(list.map(data => {
+                if (item.id === data.id) {
+                  data.isCompleted = !data.isCompleted;
+                }
+                return data;
+              })
+              );
+            }}
+            className="form-check-input"
+          />
+          {item.name}
+          <button id="delete-btn" onClick={() => onDelete(item.id)}>
+            x
+          </button>
+        </li>) : null
+    ))
+    } </ul></>
 );
 
 export default App;
