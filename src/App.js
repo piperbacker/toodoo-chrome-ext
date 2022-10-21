@@ -4,10 +4,21 @@ import { useState, useEffect } from 'react'; // use state HOOK
 import { v4 as uuidv4 } from 'uuid';
 
 const initList = [];
+const doneCount = 0;
 
 const App = () => {
-  const [list, setList] = useState(initList);
+  const [list, setList] = useState(() => {
+    // getting stored list
+    const saved = localStorage.getItem("list");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
   const [name, setName] = useState('');
+
+  useEffect(() => {
+    // storing list
+    localStorage.setItem("list", JSON.stringify(list));
+  }, [list]);
 
   const today = new Date();
   const currentDay = String(today.getDate()).padStart(2, '0');
