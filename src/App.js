@@ -35,6 +35,15 @@ const App = () => {
     setList(newList);
   }
 
+  function handleCheckboxChange(item) {
+    setList(list.map(data => {
+      if (item.id === data.id) {
+        data.isCompleted = !data.isCompleted;
+      }
+      return data;
+    }))
+  }
+
   return (
     <div className="App">
       <div className="Header">
@@ -51,9 +60,9 @@ const App = () => {
         <div id="lists">
           <List title={"To Do:"}
             list={list}
-            setList={setList}
             condition={false} //isCompleted = false
             onDelete={handleDelete}
+            onCheckboxChange={handleCheckboxChange}
           />
           <AddItem
             name={name}
@@ -63,9 +72,9 @@ const App = () => {
 
           <List title={"Completed:"}
             list={list}
-            setList={setList}
             condition={true}  //isCompleted = false
             onDelete={handleDelete}
+            onCheckboxChange={handleCheckboxChange}
           />
         </div>
       </div>
@@ -85,7 +94,7 @@ const AddItem = ({ name, onChange, onAdd }) => (
   </div>
 );
 
-const List = ({ title, list, setList, condition, onDelete }) => (
+const List = ({ title, list, condition, onDelete, onCheckboxChange }) => (
   <>
     <h2>{title}</h2>
     <ul>{list.map((item) => (
@@ -96,15 +105,7 @@ const List = ({ title, list, setList, condition, onDelete }) => (
             id={item.id}
             checked={item.isCompleted}
             name={item.name}
-            onChange={e => {
-              setList(list.map(data => {
-                if (item.id === data.id) {
-                  data.isCompleted = !data.isCompleted;
-                }
-                return data;
-              })
-              );
-            }}
+            onChange={() => onCheckboxChange(item)}
             className="form-check-input"
           />
           {item.name}
