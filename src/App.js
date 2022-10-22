@@ -2,22 +2,22 @@ import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react'; // use state HOOK
 import { v4 as uuidv4 } from 'uuid';
+/* global chrome */
 
 const initList = [];
 const doneCount = 0;
 
 const App = () => {
-  const [list, setList] = useState(() => {
-    // getting stored list
-    const saved = localStorage.getItem("list");
-    const initialValue = JSON.parse(saved);
-    return initialValue || "";
-  });
   const [name, setName] = useState('');
+  const [list, setList] = useState(initList);
 
   useEffect(() => {
-    // storing list
-    localStorage.setItem("list", JSON.stringify(list));
+    const data = window.localStorage.getItem('TOO_DOO_LIST');
+    if (data !== null) setList(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('TOO_DOO_LIST', JSON.stringify(list));
   }, [list]);
 
   const today = new Date();
@@ -35,8 +35,8 @@ const App = () => {
   function handleAdd() {
     // add item
     const newList = list.concat({ name, id: uuidv4(), isCompleted: false });
-
     setList(newList);
+
     setName('');
   }
 
