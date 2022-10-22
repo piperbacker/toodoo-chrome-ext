@@ -2,7 +2,6 @@ import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react'; // use state HOOK
 import { v4 as uuidv4 } from 'uuid';
-/* global chrome */
 
 const initList = [];
 const doneCount = 0;
@@ -90,26 +89,38 @@ const App = () => {
         </div>
       </div>
 
-      <div class="Footer">
+      <div className="Footer">
       </div>
     </div>
   );
 };
 
-const AddItem = ({ name, onChange, onAdd }) => (
+const AddItem = ({ name, onChange, onAdd, onKeyPress }) => (
   <div>
-    <input id="add-item" type="text" value={name} onChange={onChange} />
+    <input id="add-item"
+      type="text"
+      value={name}
+      onChange={onChange}
+      placeholder='type here'
+      minLength={1}
+      autoComplete="off"
+      //onKeyPress={this.handleKeyPress}
+      onKeyPress={(e) => {
+        if(e.key === 'Enter'){
+          onAdd();
+        }
+      }} />
     <button type="button" id="add-btn" onClick={onAdd}>
       +
     </button>
-  </div>
+  </div >
 );
 
 const List = ({ title, list, condition, onDelete, onCheckboxChange }) => (
   <>
     <h2>{title}</h2>
     <ul>{list.map((item) => (
-      (item.isCompleted == condition) ?
+      (item.isCompleted === condition) ?
         (<li key={item.id}>
           <input
             type="checkbox"
