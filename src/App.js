@@ -104,7 +104,6 @@ const AddItem = ({ name, onChange, onAdd, onKeyPress }) => (
       placeholder='type here'
       minLength={1}
       autoComplete="off"
-      //onKeyPress={this.handleKeyPress}
       onKeyPress={(e) => {
         if(e.key === 'Enter'){
           onAdd();
@@ -121,7 +120,7 @@ const List = ({ title, list, condition, onDelete, onCheckboxChange }) => (
     <h2>{title}</h2>
     <ul>{list.map((item) => (
       (item.isCompleted === condition) ?
-        (<li key={item.id}>
+        (<li className="listItem" key={item.id}>
           <input
             type="checkbox"
             id={item.id}

@@ -1,60 +1,52 @@
 .App {
-  box-sizing: border-box;
   width: 400px;
   height: 500px;
   text-align: left;
   list-style-type: none;
   font-family: Helvetica;
-  color: white;
-  background-color: #ffc8dd;
+  outline: 5px solid black;
 }
 
 .Header {
-  height: 35px;
+  height: 8%;
+  margin-bottom: 10px;
   padding: 5px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: #ffc8dd;
-  color: white;
+  outline: 3px solid black;
 }
 
 #date {
   font-weight: bold;
   font-size: 15px;
   margin-left: 10px;
-  text-shadow: 1px 1px #aa9da2;
 }
 
 #close-window,
 #gthb {
-  height: 20px;
   float: right;
   margin: 5px;
-  margin-top: 8px;
+  height: 20px;
+  width: 20px;
 }
 
 #hdr-btns {
-  margin-right: 10px;
+  height: 20px;
+  margin: 5px;
+  padding: 5px;
 }
 
 h2 {
   font-size: 23px;
-  text-shadow: 2px 1px #aa9da2;
 }
 
 .body {
-  outline-style: solid;
-  outline-width: 10px;
-  outline-color: #ffc8dd;
-  width: 390px;
-  height: 465px;
+  width: 90%;
+  height: 75%;
   overflow: auto;
-  scrollbar-color: #ffafcc white;
-  background-image: linear-gradient(#cdb4db, #bde0fe);
-}
-
-.scroller {
-  scrollbar-color: #ffafcc white;
+  outline: 3px solid black;
+  margin: 0 auto;
+  position: relative;
 }
 
 #lists {
@@ -74,14 +66,15 @@ li {
 
 button {
   border-style: none;
-  box-shadow: 1px 1px white;
-  background-color: #ffafcc;
+}
+
+button:hover {
+  background-color: black;
   color: white;
 }
 
 input {
   border-style: none;
-  box-shadow: 1px 1px white;
   margin-right: 5px;
 }
 
@@ -94,24 +87,18 @@ input {
   height: 22px;
 }
 
-input,
-select,
-textarea {
-  color: grey;
-}
-
 input:focus,
-select:focus,
-textarea:focus,
 button:focus {
-    outline-color: #ffc8dd;
+    outline-color: black;
 }
 
 #delete-btn {
   float: right;
   margin-right: 50px;
+  display: none
 }
 
-.form-check-input:hover, #delete-btn:hover {
-  display: inline;
+.listItem:hover #delete-btn {
+  display: block;
+
 }
