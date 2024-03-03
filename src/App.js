@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react'; // use state HOOK
 import { v4 as uuidv4 } from 'uuid';
 
 const initList = [];
-const doneCount = 0;
+//const doneCount = 0;
 
 const App = () => {
   const [name, setName] = useState('');
+  const[item, updateItem] = useState('');
   const [list, setList] = useState(initList);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const App = () => {
   }, [list]);
 
   const today = new Date();
-  const currentDay = String(today.getDate()).padStart(2, '0');
+  const currentDay = String(today.getDate());
   const currentMonth = today.toLocaleString(
     'default', { month: 'long' }
   );
@@ -31,13 +32,16 @@ const App = () => {
     setName(event.target.value);
   }
 
-  function handleAdd() {
-    // add item
-    const newList = list.concat({ name, id: uuidv4(), isCompleted: false });
-    setList(newList);
+  function handleAdd(name) {
+    // check list item is not empty, then add
+    if (name !== '') {
+      const newList = list.concat({ name, id: uuidv4(), isCompleted: false });
+      setList(newList);
 
-    setName('');
+      setName('');
+    }
   }
+
 
   function handleDelete(id) {
     // delete item
@@ -49,6 +53,22 @@ const App = () => {
     setList(list.map(data => {
       if (item.id === data.id) {
         data.isCompleted = !data.isCompleted;
+      }
+      return data;
+    }))
+  }
+
+  function handleUpdateInputChange(event) {
+    // track input field's state
+    console.log(event.target.value);
+    updateItem(event.target.value);
+  }
+
+  function handleItemUpdate(item) {
+    // update item
+    setList(list.map(data => {
+      if (item.id === data.id) {
+        data.name = item.name;
       }
       return data;
     }))
@@ -66,13 +86,15 @@ const App = () => {
         </div>
       </div>
 
-      <div className="body">
+      <div className="Body">
         <div id="lists">
           <List title={"To Do:"}
             list={list}
             condition={false} //isCompleted = false
             onDelete={handleDelete}
+            onChange={handleUpdateInputChange}
             onCheckboxChange={handleCheckboxChange}
+            onItemUpdate={handleItemUpdate}
           />
           <AddItem
             name={name}
@@ -82,9 +104,10 @@ const App = () => {
 
           <List title={"Completed:"}
             list={list}
-            condition={true}  //isCompleted = false
+            condition={true}  //isCompleted = true
             onDelete={handleDelete}
             onCheckboxChange={handleCheckboxChange}
+            onItemUpdate={handleItemUpdate}
           />
         </div>
       </div>
@@ -95,41 +118,51 @@ const App = () => {
   );
 };
 
-const AddItem = ({ name, onChange, onAdd, onKeyPress }) => (
+const AddItem = ({ name, onChange, onAdd }) => (
   <div>
     <input id="add-item"
       type="text"
       value={name}
       onChange={onChange}
-      placeholder='type here'
-      minLength={1}
+      placeholder='today is a good day toodoo something'
       autoComplete="off"
       onKeyPress={(e) => {
-        if(e.key === 'Enter'){
-          onAdd();
+        if (e.key === 'Enter') {
+          onAdd(name);
         }
       }} />
-    <button type="button" id="add-btn" onClick={onAdd}>
+    <button type="button" id="add-btn" onClick={() => onAdd(name)}>
       +
     </button>
   </div >
 );
 
-const List = ({ title, list, condition, onDelete, onCheckboxChange }) => (
+const List = ({ title, list, condition, onDelete, onCheckboxChange, onChange, onItemUpdate }) => (
   <>
     <h2>{title}</h2>
     <ul>{list.map((item) => (
       (item.isCompleted === condition) ?
-        (<li className="listItem" key={item.id}>
-          <input
-            type="checkbox"
-            id={item.id}
-            checked={item.isCompleted}
-            name={item.name}
-            onChange={() => onCheckboxChange(item)}
-            className="form-check-input"
-          />
-          {item.name}
+        (<li key={item.id}>
+          <label className="item-checkbox">
+            <input
+              type="checkbox"
+              id={item.id}
+              checked={item.isCompleted}
+              name={item.name}
+              onChange={() => onCheckboxChange(item)}
+            />
+            <span className="custom-check"></span>
+          </label>
+          <input type="text"
+            className="listItem"
+            value={item.name}
+            onChange={onChange}
+            autoComplete="off"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                onItemUpdate(item);
+              }
+            }} />
           <button id="delete-btn" onClick={() => onDelete(item.id)}>
             x
           </button>
