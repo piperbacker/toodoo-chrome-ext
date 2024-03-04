@@ -3,172 +3,181 @@ import React from 'react';
 import { useState, useEffect } from 'react'; // use state HOOK
 import { v4 as uuidv4 } from 'uuid';
 
+// interface IListItem {
+//     id: String,
+//     value: String,
+//     isDone: Boolean
+// }
+
 const initList = [];
-//const doneCount = 0;
+
+const today = new Date();
+const currentDay = String(today.getDate());
+const currentMonth = today.toLocaleString(
+    'default', { month: 'long' }
+);
+const currentYear = today.getFullYear();
 
 const App = () => {
-  const [name, setName] = useState('');
-  const[item, updateItem] = useState('');
-  const [list, setList] = useState(initList);
+    const [input, setInput] = useState('');
+    const [storedList, updateStoredList] = useState('');
+    const [list, setList] = useState(initList);
+    const [selectedTheme, setTheme] = useState('');
 
-  useEffect(() => {
-    const data = window.localStorage.getItem('TOO_DOO_LIST');
-    if (data !== null) setList(JSON.parse(data));
-  }, []);
+    useEffect(() => {
+        const data = window.localStorage.getItem('TOO_DOO_LIST');
+        if (data !== null) setList(JSON.parse(data));
+    }, []);
 
-  useEffect(() => {
-    window.localStorage.setItem('TOO_DOO_LIST', JSON.stringify(list));
-  }, [list]);
+    useEffect(() => {
+        window.localStorage.setItem('TOO_DOO_LIST', JSON.stringify(list));
+    }, [list]);
 
-  const today = new Date();
-  const currentDay = String(today.getDate());
-  const currentMonth = today.toLocaleString(
-    'default', { month: 'long' }
-  );
-  const currentYear = today.getFullYear();
-
-  function handleInputChange(event) {
-    // track input field's state
-    setName(event.target.value);
-  }
-
-  function handleAdd(name) {
-    // check list item is not empty, then add
-    if (name !== '') {
-      const newList = list.concat({ name, id: uuidv4(), isCompleted: false });
-      setList(newList);
-
-      setName('');
+    function handleInputChange(event) {
+        setInput(event.target.value);
     }
-  }
+
+    function handleAdd() {
+        if (input !== '') {
+            const newItem = { id: uuidv4(), value: input, isDone: false };
+            console.log("new item", newItem)
+            setList(...list, newItem);
+            console.log("new list", list)
+            setInput('');
+        }
+    }
+
+    function handleDelete(id) {
+        const newList = list.filter((item) => item.id !== id);
+        setList(newList);
+    }
+
+    function handleCheckboxChange(listItem) {
+        setList(list.map(item => {
+            if (item.id === item.id) {
+                item.isDone = !item.isDone;
+            }
+        }))
+    }
+
+    function handleUpdateInputChange(event) {
+        updateStoredList(event.target.value);
+    }
+
+    function handleItemUpdate(listItem) {
+        setList(list.map(item => {
+            if (listItem.id === item.id) {
+                item.value = listItem.value;
+            }
+            return item;
+        }))
+    }
+
+    return (
+        <div className="App">
+            <section id="header">
+                <div>{currentMonth} {currentDay} {currentYear}</div>
+                <button onClick={() => (window.close())}>x</button>
+            </section>
+
+            <div id="top">
+
+            </div>
+            <div id="body">
+                <div id="left">
+                    <section className="toodoo">
+                        <AddItem
+                            name={input}
+                            onChange={handleInputChange}
+                            onAdd={handleAdd}
+                        />
+                        {list.filter((li) => !li.isDone).map((item) => {
+                            <ListItem
+                                item={item}
+                                onDelete={handleDelete}
+                                onChange={handleUpdateInputChange}
+                                onCheckboxChange={handleCheckboxChange}
+                                onItemUpdate={handleItemUpdate}
+                            />
+                        })}
+                    </section>
+                    <div id="middle"></div>
+                    <section className="toodoo">
+                        {list.filter((li) => li.isDone).map((item) => {
+                            <ListItem
+                                item={item}
+                                onDelete={handleDelete}
+                                onChange={handleUpdateInputChange}
+                                onCheckboxChange={handleCheckboxChange}
+                                onItemUpdate={handleItemUpdate}
+                            />
+                        })}
+                    </section>
+                </div>
+                <div id="right">
+
+                </div>
+            </div>
 
 
-  function handleDelete(id) {
-    // delete item
-    const newList = list.filter((item) => item.id !== id);
-    setList(newList);
-  }
-
-  function handleCheckboxChange(item) {
-    setList(list.map(data => {
-      if (item.id === data.id) {
-        data.isCompleted = !data.isCompleted;
-      }
-      return data;
-    }))
-  }
-
-  function handleUpdateInputChange(event) {
-    // track input field's state
-    console.log(event.target.value);
-    updateItem(event.target.value);
-  }
-
-  function handleItemUpdate(item) {
-    // update item
-    setList(list.map(data => {
-      if (item.id === data.id) {
-        data.name = item.name;
-      }
-      return data;
-    }))
-  }
-
-  return (
-    <div className="App">
-      <div className="Header">
-        <p id="date">{currentMonth} {currentDay} - {currentYear}</p>
-        <div id="hdr-btns">
-          <button id="close-window" onClick={() => (window.close())}>x</button>
-          <a href="https://github.com/piperbacker" target="_blank" rel="noreferrer">
-            <button id="gthb">g</button>
-          </a>
+            <section id="footer">
+                <div id="themes">
+                    <button>
+                        -
+                    </button>
+                    <button>
+                        -
+                    </button>
+                    <button>
+                        -
+                    </button>
+                </div>
+                <a href="#" target='blank'>github</a>
+            </section>
         </div>
-      </div>
-
-      <div className="Body">
-        <div id="lists">
-          <List title={"To Do:"}
-            list={list}
-            condition={false} //isCompleted = false
-            onDelete={handleDelete}
-            onChange={handleUpdateInputChange}
-            onCheckboxChange={handleCheckboxChange}
-            onItemUpdate={handleItemUpdate}
-          />
-          <AddItem
-            name={name}
-            onChange={handleInputChange}
-            onAdd={handleAdd}
-          />
-
-          <List title={"Completed:"}
-            list={list}
-            condition={true}  //isCompleted = true
-            onDelete={handleDelete}
-            onCheckboxChange={handleCheckboxChange}
-            onItemUpdate={handleItemUpdate}
-          />
-        </div>
-      </div>
-
-      <div className="Footer">
-      </div>
-    </div>
-  );
+    )
 };
 
-const AddItem = ({ name, onChange, onAdd }) => (
-  <div>
-    <input id="add-item"
-      type="text"
-      value={name}
-      onChange={onChange}
-      placeholder='today is a good day toodoo something'
-      autoComplete="off"
-      onKeyPress={(e) => {
-        if (e.key === 'Enter') {
-          onAdd(name);
-        }
-      }} />
-    <button type="button" id="add-btn" onClick={() => onAdd(name)}>
-      +
-    </button>
-  </div >
+const AddItem = ({ item, onChange, onAdd }) => (
+    <div>
+        <input
+            id="add-item"
+            type="text"
+            value={item}
+            onChange={onChange}
+            placeholder="it&rsquo;s a good day toodoo something"
+            autoComplete="off"
+            onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                    onAdd(item);
+                }
+            }}
+        />
+        <button type="button" onClick={() => onAdd(item)}>+</button>
+    </div >
 );
 
-const List = ({ title, list, condition, onDelete, onCheckboxChange, onChange, onItemUpdate }) => (
-  <>
-    <h2>{title}</h2>
-    <ul>{list.map((item) => (
-      (item.isCompleted === condition) ?
-        (<li key={item.id}>
-          <label className="item-checkbox">
+const ListItem = ({ item, onDelete, onCheckboxChange, onChange, onItemUpdate }) => (
+    <li key={item.id}>
+        <label className="item-checkbox">
             <input
-              type="checkbox"
-              id={item.id}
-              checked={item.isCompleted}
-              name={item.name}
-              onChange={() => onCheckboxChange(item)}
+                type="checkbox"
+                id={item.id}
+                checked={item.isDone}
+                // name={item.value}
+                onChange={() => onCheckboxChange(item)}
             />
             <span className="custom-check"></span>
-          </label>
-          <input type="text"
-            className="listItem"
-            value={item.name}
+        </label>
+
+        <input
+            id={item.id + item.value}
+            type="text"
+            value={item}
             onChange={onChange}
             autoComplete="off"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                onItemUpdate(item);
-              }
-            }} />
-          <button id="delete-btn" onClick={() => onDelete(item.id)}>
-            x
-          </button>
-        </li>) : null
-    ))
-    } </ul></>
-);
+        />
+        <button id="delete-btn" onClick={() => onDelete(item.id)}>x</button>
+    </li>);
 
 export default App;

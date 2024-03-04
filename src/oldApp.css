@@ -1,0 +1,241 @@
+:root {
+  --light: #fcdafc;
+  --mid: #fec8ec;
+  --dark: #e084c3;
+  --accent: #6d64cd;
+}
+
+.App {
+  width: 450px;
+  height: 550px;
+  text-align: left;
+  list-style-type: none;
+  outline: 5px solid var(--accent);
+  background-color: var(--light);
+}
+
+.Header {
+  height: 6%;
+  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  outline: 3px solid var(--accent);
+  background-color: var(--mid);
+  color: var(--dark);
+}
+
+#date {
+  font-weight: bold;
+  font-size: 17px;
+  margin-left: 8%;
+  margin-bottom: 5%;
+}
+
+#hdr-btns {
+  margin: 5px;
+  padding: 5px;
+}
+
+#close-window,
+#gthb {
+  float: right;
+  margin-right: 10px;
+  height: 25px;
+  width: 25px;
+}
+
+h2 {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.Body {
+  height: 75%;
+  overflow-y: auto;
+  overflow-x: clip;
+  position: relative;
+  background-color: var(--light);
+  outline: 3px solid var(--accent);
+}
+
+#lists {
+  padding-left: 20px;
+}
+
+ul {
+  list-style-type: none;
+  margin-right: 0;
+  padding-left: 0;
+}
+
+li {
+  padding-bottom: 5px;
+  font-size: 15px;
+  position: relative;
+  margin-right: 10%;
+}
+
+.item-checkbox {
+  cursor: pointer;
+}
+
+/* Hide the default checkbox */
+input[type=checkbox] {
+  visibility: hidden;
+}
+
+/* Create custom checkbox */
+.custom-check {
+  position: absolute;
+  top: 20%;
+  left: 0;
+  height: 10px;
+  width: 10px;
+  outline: 3px solid var(--dark);
+  border-radius: 3px;
+}
+
+/* On checkbox hover */
+.item-checkbox:hover input~.custom-check {
+  background-color: var(--mid);
+}
+
+/* On checkbox active */
+.item-checkbox input:active~.custom-check {
+  background-color: var(--mid);
+}
+
+/* On checkbox checked */
+.item-checkbox input:checked~.custom-check {
+  outline: 3px solid var(--dark);
+  border-radius: 3px;
+  background-color: var(--dark);
+}
+
+/* Display checkmark when checked */
+.custom-check:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Display checkmark when checked */
+.item-checkbox input:checked~.custom-check:after {
+  display: inline;
+}
+
+/* drawing checkmark */
+.item-checkbox .custom-check:after {
+  bottom: 0px;
+  left: 1px;
+  width: 4px;
+  height: 10px;
+  border: solid var(--light);
+  border-width: 0 4px 4px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.listItem {
+  width: 85%;
+  background-color: var(--light);
+  color: var(--dark);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Add item input field and btn */
+#add-item {
+  height: 20px;
+  font-size: 16px;
+  width: 78%;
+  background-color: var(--mid);
+  margin-left: 5%;
+  color: var(--accent);
+}
+
+input {
+  border-style: none;
+  margin-right: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+input:focus {
+  outline: none;
+  color: var(--accent);
+}
+
+/* button to add a list item */
+#add-btn {
+  height: 22px;
+}
+
+/* button to delete a list item */
+#delete-btn {
+  float: right;
+  margin-right: 50px;
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 95%;
+}
+
+/* Gen btn styling */
+button {
+  border-style: none;
+  background-color: var(--dark);
+  color: white;
+  border-radius: 2px;
+}
+
+/* on hover btn styling */
+button:hover {
+  background-color: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+button:focus {
+  outline-color: var(--accent);
+}
+
+/* On list item hover display delete list item */
+li:hover #delete-btn {
+  display: block;
+}
+
+.Footer {
+  height: 17%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  outline: 3px solid var(--accent);
+  background-color: var(--mid);
+}
+
+::placeholder {
+  color: var(--dark);
+}
+
+/* width */
+.Body::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.Body::-webkit-scrollbar-track {
+  background: var(--light);
+}
+
+/* Handle */
+.Body::-webkit-scrollbar-thumb {
+  background: var(--mid);
+}
+
+/* Handle on hover */
+.Body::-webkit-scrollbar-thumb:hover {
+  background: var(--dark);
+}
