@@ -14,11 +14,12 @@ interface AddItemProps {
 interface ListEntryProps {
   entry: ListItem;
   onUpdate: (value: ListItem) => void;
+  onDelete: (id: string) => void;
+  onDone: (value: ListItem) => void;
 }
 
 const initList: ListItem[] = [];
 function App() {
-  //const [item, setItem] = useState<string>("");
   const [list, setList] = useState<ListItem[]>(initList);
 
   const today = new Date();
@@ -27,12 +28,12 @@ function App() {
   const currentYear = today.getFullYear();
 
   useMemo(() => {
-    const data = window.localStorage.getItem("TOO_DOO_LIST");
+    const data = window.localStorage.getItem("TOODOO_LIST");
     if (data !== null) setList(JSON.parse(data));
   }, []);
 
   useMemo(() => {
-    window.localStorage.setItem("TOO_DOO_LIST", JSON.stringify(list));
+    window.localStorage.setItem("TOODOO_LIST", JSON.stringify(list));
   }, [list]);
 
   function handleItemAdd(input: string) {
@@ -52,58 +53,83 @@ function App() {
     );
   }
 
+  function handleItemDelete(currentId: string) {
+    const updatedList = list.filter((item) => item.id !== currentId);
+    setList(updatedList);
+  }
+
+  function handleItemDone(currentItem: ListItem) {
+    setList(
+      list.map((item) => {
+        if (item.id === currentItem.id) {
+          item.isDone = currentItem.isDone;
+        }
+        return item;
+      })
+    );
+  }
+
   return (
     <div className="App">
       <section id="header">
+        <p>toodoo</p>
         <div>
-          {currentMonth} {currentDay} {currentYear}
+          <button>t</button>
+          <button>g</button>
         </div>
-        <button onClick={() => window.close()}>x</button>
       </section>
 
-      <div id="top"></div>
-
       <div id="body">
-        <div id="left">
-          <section className="toodoo">
-            <h2>Todoo</h2>
-            <ul>
-              {list
-                .filter((i) => !i.isDone)
-                .map((item) => (
-                  <ListEntry
-                    key={item.id}
-                    entry={item}
-                    onUpdate={handleItemUpdate}
-                  />
-                ))}
-              <AddItem onAdd={handleItemAdd} />
-            </ul>
-          </section>
-          <div id="middle"></div>
-          <section className="toodoo">
-            <h2>Done</h2>
-            {/* <List
-                list={list}
-                condition={true}  //isCompleted = true
-                onDelete={handleDelete}
-                onCheckboxChange={handleCheckboxChange}
-                onItemUpdate={handleItemUpdate}
-            /> */}
-          </section>
+        <div id="top"></div>
+
+        <div id="container">
+          <div id="left">
+            <section className="toodoo">
+              <h2>Todoo</h2>
+              <ul>
+                {list
+                  .filter((i) => !i.isDone)
+                  .map((item) => (
+                    <ListEntry
+                      key={item.id}
+                      entry={item}
+                      onUpdate={handleItemUpdate}
+                      onDelete={handleItemDelete}
+                      onDone={handleItemDone}
+                    />
+                  ))}
+                <AddItem onAdd={handleItemAdd} />
+              </ul>
+            </section>
+            <div id="middle"></div>
+            <section className="toodoo">
+              <h2>Done</h2>
+              <ul>
+                {list
+                  .filter((i) => i.isDone)
+                  .map((item) => (
+                    <ListEntry
+                      key={item.id}
+                      entry={item}
+                      onUpdate={handleItemUpdate}
+                      onDelete={handleItemDelete}
+                      onDone={handleItemDone}
+                    />
+                  ))}
+              </ul>
+            </section>
+          </div>
+          <div id="right"></div>
         </div>
-        <div id="right"></div>
       </div>
 
       <section id="footer">
-        <div id="themes">
-          <button>-</button>
-          <button>-</button>
-          <button>-</button>
+        <div id="tags">
+          <p>tags:</p>
+          <button>important</button>
+          <button>school</button>
+          <button>misc</button>
         </div>
-        <a href="#" target="blank">
-          github
-        </a>
       </section>
     </div>
   );
@@ -144,6 +170,7 @@ const AddItem = (props: AddItemProps) => {
 
 const ListEntry = (props: ListEntryProps) => {
   let [value, setValue] = useState<string>(props.entry.value);
+  let [checked, setChecked] = useState<boolean>(props.entry.isDone);
   const item = props.entry;
 
   return (
@@ -152,9 +179,11 @@ const ListEntry = (props: ListEntryProps) => {
         <input
           type="checkbox"
           id={item.id}
-          checked={item.isDone}
+          checked={checked}
           onChange={() => {
-            console.log("checkbox change");
+            setChecked(!checked);
+            item.isDone = !item.isDone;
+            props.onDone(item);
           }}
         />
         <span className="custom-check"></span>
@@ -174,9 +203,9 @@ const ListEntry = (props: ListEntryProps) => {
           }
         }}
       />
-      {/* <button id="delete-btn" onClick={() => onDelete(item.id)}>
+      <button className="delete-btn" onClick={() => props.onDelete(item.id)}>
         x
-      </button> */}
+      </button>
     </li>
   );
 };

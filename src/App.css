@@ -9,15 +9,13 @@
   width: 450px;
   height: 550px;
   text-align: left;
-  background: lightblue;
+  font-size: 14px;
+  border: 2px solid lightblue;
 }
 
 button {
-  height: 20px;
-  width: 20px;
   background: white;
   border: none;
-  font-size: 15px;
   text-align: center;
   cursor: pointer;
 }
@@ -25,9 +23,7 @@ button {
 input {
   border: none;
   background: none;
-  color: white;
-  border-bottom: 1.5px solid white;
-  width: 250px;
+  width: 230px;
 }
 
 input:focus {
@@ -35,7 +31,8 @@ input:focus {
 }
 
 input[type="checkbox"] {
-  display: none;
+  width: 15px;
+  /* display: none; */
 }
 
 a {
@@ -48,78 +45,95 @@ h2 {
   font-size: 20px;
 }
 
+p {
+  margin: 0;
+}
+
 #header {
   background: lightgrey;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 30px;
+  height: 25px;
   padding: var(--padding);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 
+#header button {
+  font-weight: bold;
+  margin: 0 3px;
+}
+
 #top {
-  margin: var(--margin);
   height: 60px;
-  background: lightcoral;
 }
 
 #body {
-  display: flex;
-  margin: var(--margin);
-  height: 430px;
+  padding: var(--padding);
+  height: 85%;
+  overflow-y: auto;
 }
 
-#left {
-  flex-grow: 1;
+#container {
+  display: flex;
 }
 
 section.toodoo {
   background: lightgray;
   padding: 10px;
-  height: 170px;
 }
 
 section.toodoo ul {
-  height: 156px;
-  overflow: auto;
-  margin: 0;
-  margin-bottom: 10px;
+  margin: 10px 0;
+  padding: 0;
 }
 
 section.toodoo li {
   display: flex;
+  margin: 10px 5px;
+}
+
+section.toodoo li input {
+  margin-right: 8px;
+}
+
+section.toodoo li .delete-btn {
+  opacity: 0;
+}
+
+section.toodoo li:hover > .delete-btn {
+  opacity: 1;
 }
 
 section.toodoo li#new-item {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  gap: 20px;
+}
+
+section.toodoo input#add-item {
+  border-bottom: 1.5px solid white;
 }
 
 #middle {
-  background: lightcoral;
   height: 50px;
 }
 
 #right {
-  background: lightcoral;
   width: 85px;
 }
 
 #footer {
-  margin: var(--margin);
-  background: green;
-  height: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: var(--padding);
+  padding-top: 30px;
 }
 
-#themes {
+#footer button {
+  background: lightgrey;
+}
+
+#tags {
   gap: 5px;
   display: flex;
 }
