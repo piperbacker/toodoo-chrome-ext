@@ -1,8 +1,15 @@
 @charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Amiko:wght@400;600;700&display=swap");
 
 :root {
   --margin: 0 10px;
   --padding: 0 10px;
+  --border-radius: 4px;
+  --main-font: "Amiko", sans-serif;
+  --gradient: radial-gradient(circle at bottom center, #b03045, #25095d 80%);
+  --white-10: #ffffff26;
+
+  --dark-purple: #25095d;
 }
 
 .App {
@@ -10,7 +17,11 @@
   height: 550px;
   text-align: left;
   font-size: 14px;
+  border-radius: var(--border-radius);
   border: 2px solid lightblue;
+  font-family: var(--main-font);
+  background: var(--gradient);
+  color: white;
 }
 
 button {
@@ -18,12 +29,17 @@ button {
   border: none;
   text-align: center;
   cursor: pointer;
+  border-radius: var(--border-radius);
+  font-family: var(--main-font);
+  color: var(--dark-purple);
 }
 
 input {
   border: none;
   background: none;
+  font-family: var(--main-font);
   width: 230px;
+  color: white;
 }
 
 input:focus {
@@ -31,8 +47,9 @@ input:focus {
 }
 
 input[type="checkbox"] {
-  width: 15px;
   /* display: none; */
+  margin: 0;
+  width: 15px;
 }
 
 a {
@@ -50,7 +67,7 @@ p {
 }
 
 #header {
-  background: lightgrey;
+  background: var(--white-10);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -58,10 +75,10 @@ p {
   padding: var(--padding);
   font-size: 14px;
   font-weight: bold;
+  border-radius: 4px 4px 0 0;
 }
 
 #header button {
-  font-weight: bold;
   margin: 0 3px;
 }
 
@@ -80,8 +97,9 @@ p {
 }
 
 section.toodoo {
-  background: lightgray;
+  background: var(--white-10);
   padding: 10px;
+  border-radius: var(--border-radius);
 }
 
 section.toodoo ul {
@@ -106,6 +124,10 @@ section.toodoo li:hover > .delete-btn {
   opacity: 1;
 }
 
+section.toodoo li:hover > input {
+  box-shadow: 0 2px 0px -1px white;
+}
+
 section.toodoo li#new-item {
   display: flex;
   align-items: flex-end;
@@ -113,11 +135,11 @@ section.toodoo li#new-item {
 }
 
 section.toodoo input#add-item {
-  border-bottom: 1.5px solid white;
+  box-shadow: 0 2px 0px -1px white;
 }
 
 #middle {
-  height: 50px;
+  height: 30px;
 }
 
 #right {
@@ -127,10 +149,6 @@ section.toodoo input#add-item {
 #footer {
   padding: var(--padding);
   padding-top: 30px;
-}
-
-#footer button {
-  background: lightgrey;
 }
 
 #tags {

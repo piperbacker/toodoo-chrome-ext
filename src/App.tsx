@@ -22,11 +22,6 @@ const initList: ListItem[] = [];
 function App() {
   const [list, setList] = useState<ListItem[]>(initList);
 
-  const today = new Date();
-  const currentDay = String(today.getDate());
-  const currentMonth = today.toLocaleString("default", { month: "long" });
-  const currentYear = today.getFullYear();
-
   useMemo(() => {
     const data = window.localStorage.getItem("TOODOO_LIST");
     if (data !== null) setList(JSON.parse(data));
@@ -85,7 +80,6 @@ function App() {
         <div id="container">
           <div id="left">
             <section className="toodoo">
-              <h2>Todoo</h2>
               <ul>
                 {list
                   .filter((i) => !i.isDone)
@@ -98,12 +92,11 @@ function App() {
                       onDone={handleItemDone}
                     />
                   ))}
-                <AddItem onAdd={handleItemAdd} />
+                <AddEntry onAdd={handleItemAdd} />
               </ul>
             </section>
             <div id="middle"></div>
             <section className="toodoo">
-              <h2>Done</h2>
               <ul>
                 {list
                   .filter((i) => i.isDone)
@@ -135,7 +128,7 @@ function App() {
   );
 }
 
-const AddItem = (props: AddItemProps) => {
+const AddEntry = (props: AddItemProps) => {
   let [value, setValue] = useState<string>("");
 
   return (
