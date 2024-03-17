@@ -6,8 +6,9 @@
   --padding: 0 10px;
   --border-radius: 4px;
   --main-font: "Amiko", sans-serif;
+}
 
-  /*  Theme variables */
+[data-color-theme="space"] {
   --main-bg: #ffffff26;
   --main-color: #25095d;
   --secondary-color: #b03045;
@@ -16,6 +17,30 @@
     circle at bottom center,
     var(--secondary-color),
     var(--main-color) 80%
+  );
+}
+
+[data-color-theme="spring"] {
+  --main-bg: #18282f59;
+  --main-color: #8bcdd3;
+  --secondary-color: #ffc7a5;
+  --main-text-color: #111c21;
+  --gradient: radial-gradient(
+    circle at bottom center,
+    var(--secondary-color),
+    var(--main-color) 80%
+  );
+}
+
+[data-color-theme="greenery"] {
+  --main-bg: #ffffff26;
+  --main-color: #0e5932;
+  --secondary-color: #c1aa4d;
+  --main-text-color: white;
+  --gradient: radial-gradient(
+    circle at bottom center,
+    var(--secondary-color),
+    var(--main-color) 95%
   );
 }
 
@@ -28,7 +53,7 @@
   border: 2px solid lightblue;
   font-family: var(--main-font);
   background: var(--gradient);
-  color: white;
+  color: var(--main-text-color);
 }
 
 button {
@@ -54,7 +79,7 @@ input {
   font-family: var(--main-font);
   width: 230px;
   font-size: 15px;
-  color: white;
+  color: var(--main-text-color);
 }
 
 input:focus {
@@ -94,6 +119,26 @@ ul {
 
 #header button {
   margin: 0 3px;
+}
+
+#header .header-btns {
+  display: flex;
+}
+
+#header div.all-themes {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  position: absolute;
+  padding-top: 5px;
+}
+
+#header div.all-themes button:hover {
+  background: var(--secondary-color);
+}
+
+#header .themes:hover > .all-themes {
+  display: flex;
 }
 
 #top {
@@ -149,7 +194,7 @@ section.toodoo li > input {
 }
 
 section.toodoo li:hover > input {
-  box-shadow: 0 2px 0px -1px white;
+  box-shadow: 0 2px 0px -1px var(--main-text-color);
   transition: all 200ms ease-out;
 }
 
@@ -164,7 +209,7 @@ section.toodoo li#new-item div {
 }
 
 section.toodoo input#add-input {
-  box-shadow: 0 2px 0px -1px white;
+  box-shadow: 0 2px 0px -1px var(--main-text-color);
 }
 
 section.toodoo input#add-input::placeholder {
@@ -252,14 +297,15 @@ section.toodoo button.delete-btn {
   position: absolute;
   top: -3px;
   left: 0;
-  height: 18px;
-  width: 18px;
-  background: var(--main-text-color);
+  height: 12px;
+  width: 12px;
+  outline: 2px solid var(--main-text-color);
   border-radius: var(--border-radius);
   transition: all 200ms ease;
 }
 
 .entry-checkbox input:checked ~ .entry-custom-checkbox {
+  outline: 2px solid var(--main-color);
   background-color: var(--main-color);
   transition: all 200ms ease;
 }
@@ -277,7 +323,8 @@ section.toodoo button.delete-btn {
 }
 
 .entry-checkbox:hover input ~ .entry-custom-checkbox {
-  background: var(--main-color);
+  outline: 2px solid var(--main-color);
+  background-color: var(--main-color);
   transition: all 200ms ease;
 }
 
@@ -292,10 +339,10 @@ section.toodoo button.delete-btn {
 }
 
 .entry-checkbox .entry-custom-checkbox:after {
-  left: 6px;
-  top: 1.5px;
-  width: 4px;
-  height: 10px;
+  left: 3.4px;
+  top: 0px;
+  width: 3px;
+  height: 8px;
   border: solid var(--main-text-color);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);

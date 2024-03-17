@@ -16,6 +16,14 @@ interface ListItem {
   isDone: boolean;
 }
 
+enum Themes {
+  Space = "space",
+  Spring = "spring",
+  Greenery = "greenery",
+}
+
+const themes = [Themes.Space, Themes.Spring, Themes.Greenery];
+
 interface AddItemProps {
   onAdd: (value: string) => void;
 }
@@ -34,14 +42,9 @@ const initList: ListItem[] = [];
 const getItemStyle = (
   isDragging: boolean,
   draggableStyle: DraggingStyle | NotDraggingStyle | undefined
-) => ({
-  background: isDragging ? "lightblue" : "",
-  ...draggableStyle,
-});
+) => ({ ...draggableStyle });
 
-const getListStyle = (isDraggingOver: boolean) => ({
-  //background: isDraggingOver ? "" : "",
-});
+const getListStyle = (isDraggingOver: boolean) => ({});
 
 const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -52,6 +55,7 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
 };
 
 function App() {
+  const [theme, setTheme] = useState<Themes>(Themes.Space);
   const [list, setList] = useState<ListItem[]>(initList);
 
   useMemo(() => {
@@ -109,11 +113,22 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" data-color-theme={theme}>
       <section id="header">
         <p>toodoo</p>
-        <div>
-          <button>t</button>
+        <div className="header-btns">
+          <div className="themes">
+            <button id="selected-theme">{theme}</button>
+            <div className="all-themes">
+              {themes
+                .filter((t) => t !== theme)
+                .map((theme, index) => (
+                  <button onClick={() => setTheme(theme)} key={theme}>
+                    {theme}
+                  </button>
+                ))}
+            </div>
+          </div>
           <button>g</button>
         </div>
       </section>
