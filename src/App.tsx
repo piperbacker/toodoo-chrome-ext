@@ -133,8 +133,9 @@ const AddEntry = (props: AddItemProps) => {
 
   return (
     <li id="new-item">
+      <div>{/* checkbox placeholder */}</div>
       <input
-        id="add-item"
+        id="add-input"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -150,12 +151,20 @@ const AddEntry = (props: AddItemProps) => {
       <button
         type="button"
         id="add-btn"
+        className="icon-btn"
         onClick={() => {
           props.onAdd(value);
           setValue("");
         }}
       >
-        +
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 448 512"
+        >
+          <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+        </svg>
       </button>
     </li>
   );
@@ -167,8 +176,8 @@ const ListEntry = (props: ListEntryProps) => {
   const item = props.entry;
 
   return (
-    <li key={item.id}>
-      <label className="item-checkbox">
+    <li className="list-entry" key={item.id}>
+      <label className="entry-checkbox">
         <input
           type="checkbox"
           id={item.id}
@@ -179,12 +188,11 @@ const ListEntry = (props: ListEntryProps) => {
             props.onDone(item);
           }}
         />
-        <span className="custom-check"></span>
+        <span className="entry-custom-checkbox"></span>
       </label>
       <input
         id={item.id + item.value}
         type="text"
-        className="listItem"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         autoComplete="off"
@@ -196,8 +204,28 @@ const ListEntry = (props: ListEntryProps) => {
           }
         }}
       />
-      <button className="delete-btn" onClick={() => props.onDelete(item.id)}>
-        x
+      <button className="dnd-btn icon-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20"
+          width="20"
+          viewBox="0 0 448 512"
+        >
+          <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+        </svg>
+      </button>
+      <button
+        className="delete-btn icon-btn"
+        onClick={() => props.onDelete(item.id)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20"
+          width="20"
+          viewBox="0 0 448 512"
+        >
+          <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+        </svg>
       </button>
     </li>
   );

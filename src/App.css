@@ -6,10 +6,17 @@
   --padding: 0 10px;
   --border-radius: 4px;
   --main-font: "Amiko", sans-serif;
-  --gradient: radial-gradient(circle at bottom center, #b03045, #25095d 80%);
-  --white-10: #ffffff26;
 
-  --dark-purple: #25095d;
+  /*  Theme variables */
+  --main-bg: #ffffff26;
+  --main-color: #25095d;
+  --secondary-color: #b03045;
+  --main-text-color: white;
+  --gradient: radial-gradient(
+    circle at bottom center,
+    var(--secondary-color),
+    var(--main-color) 80%
+  );
 }
 
 .App {
@@ -25,13 +32,20 @@
 }
 
 button {
-  background: white;
+  background: var(--main-text-color);
   border: none;
   text-align: center;
   cursor: pointer;
   border-radius: var(--border-radius);
   font-family: var(--main-font);
-  color: var(--dark-purple);
+  color: var(--main-color);
+  transition: all 200ms ease-in;
+}
+
+button:hover {
+  background: var(--main-color);
+  color: var(--main-text-color);
+  transition: all 200ms ease-out;
 }
 
 input {
@@ -44,12 +58,6 @@ input {
 
 input:focus {
   outline: none;
-}
-
-input[type="checkbox"] {
-  /* display: none; */
-  margin: 0;
-  width: 15px;
 }
 
 a {
@@ -67,7 +75,7 @@ p {
 }
 
 #header {
-  background: var(--white-10);
+  background: var(--main-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -97,7 +105,7 @@ p {
 }
 
 section.toodoo {
-  background: var(--white-10);
+  background: var(--main-bg);
   padding: 10px;
   border-radius: var(--border-radius);
 }
@@ -109,33 +117,115 @@ section.toodoo ul {
 
 section.toodoo li {
   display: flex;
+  align-items: center;
   margin: 10px 5px;
 }
 
 section.toodoo li input {
-  margin-right: 8px;
+  margin: 0 8px;
 }
 
-section.toodoo li .delete-btn {
+section.toodoo li.list-entry {
+  transition: all 200ms ease-out;
+}
+
+section.toodoo li.list-entry:hover {
+  transition: all 200ms ease-in;
+}
+
+section.toodoo li.list-entry button {
   opacity: 0;
 }
 
-section.toodoo li:hover > .delete-btn {
+section.toodoo li.list-entry button svg {
+  margin-top: 2px;
+}
+
+section.toodoo li.list-entry:hover > button {
   opacity: 1;
+}
+
+section.toodoo li > input {
+  box-shadow: 0 2px 0px -1px transparent;
+  transition: all 200ms ease-in;
 }
 
 section.toodoo li:hover > input {
   box-shadow: 0 2px 0px -1px white;
+  transition: all 200ms ease-out;
 }
 
 section.toodoo li#new-item {
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
-section.toodoo input#add-item {
+section.toodoo li#new-item div {
+  width: 35px;
+}
+
+section.toodoo input#add-input {
   box-shadow: 0 2px 0px -1px white;
+}
+
+section.toodoo li#new-item button#add-btn {
+  margin-left: 20px;
+}
+
+/* custom checkbox */
+
+.entry-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.entry-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+section.toodoo .icon-btn {
+  display: flex;
+  align-items: center;
+  fill: var(--main-color);
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+}
+
+section.toodoo .icon-btn:hover {
+  fill: var(--main-text-color);
+}
+
+section.toodoo button.dnd-btn {
+  background: none;
+  fill: var(--main-text-color);
+  height: 20px;
+  width: 20px;
+  margin-right: 2px;
+  cursor: grab;
+}
+
+section.toodoo button.dnd-btn:hover {
+  fill: var(--main-color);
+}
+
+section.toodoo button.delete-btn {
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
 }
 
 #middle {
@@ -154,4 +244,60 @@ section.toodoo input#add-item {
 #tags {
   gap: 5px;
   display: flex;
+}
+
+/* --- Custom Checkbox --- */
+
+.entry-custom-checkbox {
+  position: absolute;
+  top: -3px;
+  left: 8px;
+  height: 18px;
+  width: 18px;
+  background: var(--main-text-color);
+  border-radius: var(--border-radius);
+  transition: all 200ms ease;
+}
+
+.entry-checkbox input:checked ~ .entry-custom-checkbox {
+  background-color: var(--main-color);
+  transition: all 200ms ease;
+}
+
+.entry-custom-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input:checked ~ .entry-custom-checkbox:after {
+  display: none;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input ~ .entry-custom-checkbox {
+  background: var(--main-color);
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input ~ .entry-custom-checkbox:after {
+  transition: all 200ms ease;
+  display: block;
+}
+
+.entry-checkbox input:checked ~ .entry-custom-checkbox:after {
+  display: block;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox .entry-custom-checkbox:after {
+  left: 6px;
+  top: 1.5px;
+  width: 4px;
+  height: 10px;
+  border: solid var(--main-text-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transition: all 200ms ease;
 }
