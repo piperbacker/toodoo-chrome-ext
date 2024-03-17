@@ -59,13 +59,20 @@ function App() {
   const [list, setList] = useState<ListItem[]>(initList);
 
   useMemo(() => {
-    const data = window.localStorage.getItem("TOODOO_LIST");
-    if (data !== null) setList(JSON.parse(data));
+    const listData = window.localStorage.getItem("TOODOO_LIST");
+    if (listData !== null) setList(JSON.parse(listData));
+
+    const themeData = window.localStorage.getItem("TOODOO_THEME");
+    if (themeData !== null) setTheme(JSON.parse(themeData));
   }, []);
 
   useMemo(() => {
     window.localStorage.setItem("TOODOO_LIST", JSON.stringify(list));
   }, [list]);
+
+  useMemo(() => {
+    window.localStorage.setItem("TOODOO_THEME", JSON.stringify(theme));
+  }, [theme]);
 
   function handleItemAdd(input: string) {
     if (input !== "") {
@@ -251,7 +258,7 @@ const AddEntry = (props: AddItemProps) => {
           }
         }}
       />
-      <button
+      {/* <button
         type="button"
         id="add-btn"
         className="icon-btn"
@@ -268,7 +275,7 @@ const AddEntry = (props: AddItemProps) => {
         >
           <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
         </svg>
-      </button>
+      </button> */}
     </li>
   );
 };
