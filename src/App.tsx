@@ -1,5 +1,14 @@
-import React, { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DraggingStyle,
+  NotDraggingStyle,
+  DraggableProvidedDraggableProps,
+  DroppableProps,
+} from "@hello-pangea/dnd";
 import "./App.css";
 
 interface ListItem {
@@ -11,14 +20,57 @@ interface ListItem {
 interface AddItemProps {
   onAdd: (value: string) => void;
 }
+
 interface ListEntryProps {
   entry: ListItem;
+  draggableProps?: DraggableProvidedDraggableProps;
+  index: number;
   onUpdate: (value: ListItem) => void;
   onDelete: (id: string) => void;
   onDone: (value: ListItem) => void;
 }
 
 const initList: ListItem[] = [];
+
+const getItemStyle = (
+  isDragging: boolean,
+  draggableStyle: DraggingStyle | NotDraggingStyle | undefined
+) => ({
+  background: isDragging ? "lightblue" : "",
+  ...draggableStyle,
+});
+
+const getListStyle = (isDraggingOver: boolean) => ({
+  //background: isDraggingOver ? "" : "",
+});
+
+const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const animation = requestAnimationFrame(() => setEnabled(true));
+
+    return () => {
+      cancelAnimationFrame(animation);
+      setEnabled(false);
+    };
+  }, []);
+
+  if (!enabled) {
+    return null;
+  }
+
+  return <Droppable {...props}>{children}</Droppable>;
+};
+
 function App() {
   const [list, setList] = useState<ListItem[]>(initList);
 
@@ -64,6 +116,15 @@ function App() {
     );
   }
 
+  function onDragEnd(result: any) {
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(list, result.source.index, result.destination.index);
+    setList(items);
+  }
+
   return (
     <div className="App">
       <section id="header">
@@ -81,23 +142,39 @@ function App() {
           <div id="left">
             <section className="toodoo">
               <ul>
-                {list
-                  .filter((i) => !i.isDone)
-                  .map((item) => (
-                    <ListEntry
-                      key={item.id}
-                      entry={item}
-                      onUpdate={handleItemUpdate}
-                      onDelete={handleItemDelete}
-                      onDone={handleItemDone}
-                    />
-                  ))}
+                <DragDropContext
+                  onDragEnd={(result) => {
+                    onDragEnd(result);
+                  }}
+                >
+                  <StrictModeDroppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                      >
+                        {list.map((item, index) => (
+                          <ListEntry
+                            key={item.id}
+                            entry={item}
+                            index={index}
+                            onUpdate={handleItemUpdate}
+                            onDelete={handleItemDelete}
+                            onDone={handleItemDone}
+                          />
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </StrictModeDroppable>
+                </DragDropContext>
                 <AddEntry onAdd={handleItemAdd} />
               </ul>
             </section>
             <div id="middle"></div>
             <section className="toodoo">
-              <ul>
+              {/* <ul>
                 {list
                   .filter((i) => i.isDone)
                   .map((item) => (
@@ -109,7 +186,7 @@ function App() {
                       onDone={handleItemDone}
                     />
                   ))}
-              </ul>
+              </ul> */}
             </section>
           </div>
           <div id="right"></div>
@@ -176,58 +253,72 @@ const ListEntry = (props: ListEntryProps) => {
   const item = props.entry;
 
   return (
-    <li className="list-entry" key={item.id}>
-      <label className="entry-checkbox">
-        <input
-          type="checkbox"
-          id={item.id}
-          checked={checked}
-          onChange={() => {
-            setChecked(!checked);
-            item.isDone = !item.isDone;
-            props.onDone(item);
-          }}
-        />
-        <span className="entry-custom-checkbox"></span>
-      </label>
-      <input
-        id={item.id + item.value}
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        autoComplete="off"
-        onKeyUp={(e) => {
-          if (e.key === "Enter") {
-            item.value = value;
-            props.onUpdate(item);
-            // lose focus to take away tab bar
-          }
-        }}
-      />
-      <button className="dnd-btn icon-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="20"
-          width="20"
-          viewBox="0 0 448 512"
+    <Draggable key={item.id} draggableId={item.id} index={props.index}>
+      {(provided, snapshot) => (
+        <li
+          className="list-entry"
+          key={item.id}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={getItemStyle(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )}
         >
-          <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
-        </svg>
-      </button>
-      <button
-        className="delete-btn icon-btn"
-        onClick={() => props.onDelete(item.id)}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="20"
-          width="20"
-          viewBox="0 0 448 512"
-        >
-          <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-        </svg>
-      </button>
-    </li>
+          <label className="entry-checkbox">
+            <input
+              type="checkbox"
+              id={item.id}
+              checked={checked}
+              onChange={() => {
+                setChecked(!checked);
+                item.isDone = !item.isDone;
+                props.onDone(item);
+              }}
+            />
+            <span className="entry-custom-checkbox"></span>
+          </label>
+          <input
+            id={item.id + item.value}
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            autoComplete="off"
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                item.value = value;
+                props.onUpdate(item);
+                // lose focus to take away tab bar
+              }
+            }}
+          />
+          <button className="dnd-btn icon-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20"
+              width="20"
+              viewBox="0 0 448 512"
+            >
+              <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+            </svg>
+          </button>
+          <button
+            className="delete-btn icon-btn"
+            onClick={() => props.onDelete(item.id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20"
+              width="20"
+              viewBox="0 0 448 512"
+            >
+              <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+            </svg>
+          </button>
+        </li>
+      )}
+    </Draggable>
   );
 };
 
