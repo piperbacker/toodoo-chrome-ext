@@ -53,6 +53,7 @@ input {
   background: none;
   font-family: var(--main-font);
   width: 230px;
+  font-size: 15px;
   color: white;
 }
 
@@ -72,6 +73,11 @@ h2 {
 
 p {
   margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
 #header {
@@ -118,19 +124,11 @@ section.toodoo ul {
 section.toodoo li {
   display: flex;
   align-items: center;
-  margin: 10px 5px;
+  padding: 5px 5px;
 }
 
 section.toodoo li input {
   margin: 0 8px;
-}
-
-section.toodoo li.list-entry {
-  transition: all 200ms ease-out;
-}
-
-section.toodoo li.list-entry:hover {
-  transition: all 200ms ease-in;
 }
 
 section.toodoo li.list-entry button {
@@ -171,29 +169,6 @@ section.toodoo input#add-input {
 
 section.toodoo li#new-item button#add-btn {
   margin-left: 20px;
-}
-
-/* custom checkbox */
-
-.entry-checkbox {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.entry-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
 }
 
 section.toodoo .icon-btn {
@@ -247,6 +222,26 @@ section.toodoo button.delete-btn {
 }
 
 /* --- Custom Checkbox --- */
+.entry-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.entry-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
 
 .entry-custom-checkbox {
   position: absolute;

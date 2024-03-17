@@ -7,7 +7,6 @@ import {
   DraggingStyle,
   NotDraggingStyle,
   DraggableProvidedDraggableProps,
-  DroppableProps,
 } from "@hello-pangea/dnd";
 import "./App.css";
 
@@ -52,24 +51,24 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
-  const [enabled, setEnabled] = useState(false);
+// export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
+//   const [enabled, setEnabled] = useState(false);
 
-  useEffect(() => {
-    const animation = requestAnimationFrame(() => setEnabled(true));
+//   useEffect(() => {
+//     const animation = requestAnimationFrame(() => setEnabled(true));
 
-    return () => {
-      cancelAnimationFrame(animation);
-      setEnabled(false);
-    };
-  }, []);
+//     return () => {
+//       cancelAnimationFrame(animation);
+//       setEnabled(false);
+//     };
+//   }, []);
 
-  if (!enabled) {
-    return null;
-  }
+//   if (!enabled) {
+//     return null;
+//   }
 
-  return <Droppable {...props}>{children}</Droppable>;
-};
+//   return <Droppable {...props}>{children}</Droppable>;
+// };
 
 function App() {
   const [list, setList] = useState<ListItem[]>(initList);
@@ -147,7 +146,7 @@ function App() {
                     onDragEnd(result);
                   }}
                 >
-                  <StrictModeDroppable droppableId="droppable">
+                  <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
                       <div
                         {...provided.droppableProps}
@@ -167,7 +166,7 @@ function App() {
                         {provided.placeholder}
                       </div>
                     )}
-                  </StrictModeDroppable>
+                  </Droppable>
                 </DragDropContext>
                 <AddEntry onAdd={handleItemAdd} />
               </ul>
@@ -260,7 +259,7 @@ const ListEntry = (props: ListEntryProps) => {
           key={item.id}
           ref={provided.innerRef}
           {...provided.draggableProps}
-          {...provided.dragHandleProps}
+          // {...provided.dragHandleProps}
           style={getItemStyle(
             snapshot.isDragging,
             provided.draggableProps.style
@@ -293,7 +292,7 @@ const ListEntry = (props: ListEntryProps) => {
               }
             }}
           />
-          <button className="dnd-btn icon-btn">
+          <button {...provided.dragHandleProps} className="dnd-btn icon-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="20"
