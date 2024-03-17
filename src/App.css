@@ -112,7 +112,7 @@ ul {
 
 section.toodoo {
   background: var(--main-bg);
-  padding: 10px;
+  padding: 10px 0;
   border-radius: var(--border-radius);
 }
 
@@ -124,7 +124,7 @@ section.toodoo ul {
 section.toodoo li {
   display: flex;
   align-items: center;
-  padding: 5px 5px;
+  padding: 5px 15px;
 }
 
 section.toodoo li input {
@@ -160,11 +160,16 @@ section.toodoo li#new-item {
 }
 
 section.toodoo li#new-item div {
-  width: 35px;
+  width: 25px;
 }
 
 section.toodoo input#add-input {
   box-shadow: 0 2px 0px -1px white;
+}
+
+section.toodoo input#add-input::placeholder {
+  color: var(--main-text-color);
+  opacity: 50%;
 }
 
 section.toodoo li#new-item button#add-btn {
@@ -225,7 +230,7 @@ section.toodoo button.delete-btn {
 .entry-checkbox {
   display: block;
   position: relative;
-  padding-left: 35px;
+  padding-left: 25px;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
@@ -246,7 +251,7 @@ section.toodoo button.delete-btn {
 .entry-custom-checkbox {
   position: absolute;
   top: -3px;
-  left: 8px;
+  left: 0;
   height: 18px;
   width: 18px;
   background: var(--main-text-color);

@@ -51,25 +51,6 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-// export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
-//   const [enabled, setEnabled] = useState(false);
-
-//   useEffect(() => {
-//     const animation = requestAnimationFrame(() => setEnabled(true));
-
-//     return () => {
-//       cancelAnimationFrame(animation);
-//       setEnabled(false);
-//     };
-//   }, []);
-
-//   if (!enabled) {
-//     return null;
-//   }
-
-//   return <Droppable {...props}>{children}</Droppable>;
-// };
-
 function App() {
   const [list, setList] = useState<ListItem[]>(initList);
 
@@ -115,12 +96,15 @@ function App() {
     );
   }
 
-  function onDragEnd(result: any) {
+  function onDragEnd(result: any, filteredList: ListItem[]) {
     if (!result.destination) {
       return;
     }
 
-    const items = reorder(list, result.source.index, result.destination.index);
+    const startItem = filteredList[result.source.index];
+    const endItem = filteredList[result.destination.index];
+
+    const items = reorder(list, list.indexOf(startItem), list.indexOf(endItem));
     setList(items);
   }
 
@@ -143,7 +127,10 @@ function App() {
               <ul>
                 <DragDropContext
                   onDragEnd={(result) => {
-                    onDragEnd(result);
+                    onDragEnd(
+                      result,
+                      list.filter((i) => !i.isDone)
+                    );
                   }}
                 >
                   <Droppable droppableId="droppable">
@@ -153,16 +140,18 @@ function App() {
                         ref={provided.innerRef}
                         style={getListStyle(snapshot.isDraggingOver)}
                       >
-                        {list.map((item, index) => (
-                          <ListEntry
-                            key={item.id}
-                            entry={item}
-                            index={index}
-                            onUpdate={handleItemUpdate}
-                            onDelete={handleItemDelete}
-                            onDone={handleItemDone}
-                          />
-                        ))}
+                        {list
+                          .filter((i) => !i.isDone)
+                          .map((item, index) => (
+                            <ListEntry
+                              key={item.id}
+                              entry={item}
+                              index={index}
+                              onUpdate={handleItemUpdate}
+                              onDelete={handleItemDelete}
+                              onDone={handleItemDone}
+                            />
+                          ))}
                         {provided.placeholder}
                       </div>
                     )}
@@ -172,21 +161,44 @@ function App() {
               </ul>
             </section>
             <div id="middle"></div>
-            <section className="toodoo">
-              {/* <ul>
-                {list
-                  .filter((i) => i.isDone)
-                  .map((item) => (
-                    <ListEntry
-                      key={item.id}
-                      entry={item}
-                      onUpdate={handleItemUpdate}
-                      onDelete={handleItemDelete}
-                      onDone={handleItemDone}
-                    />
-                  ))}
-              </ul> */}
-            </section>
+            {list.filter((i) => i.isDone).length > 0 && (
+              <section className="toodoo">
+                <ul>
+                  <DragDropContext
+                    onDragEnd={(result) => {
+                      onDragEnd(
+                        result,
+                        list.filter((i) => i.isDone)
+                      );
+                    }}
+                  >
+                    <Droppable droppableId="droppable">
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}
+                        >
+                          {list
+                            .filter((i) => i.isDone)
+                            .map((item, index) => (
+                              <ListEntry
+                                key={item.id}
+                                entry={item}
+                                index={index}
+                                onUpdate={handleItemUpdate}
+                                onDelete={handleItemDelete}
+                                onDone={handleItemDone}
+                              />
+                            ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </ul>
+              </section>
+            )}
           </div>
           <div id="right"></div>
         </div>
@@ -215,7 +227,7 @@ const AddEntry = (props: AddItemProps) => {
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="it&rsquo;s a good day toodoo something"
+        placeholder="it&rsquo;s time toodoo something"
         autoComplete="off"
         onKeyUp={(e) => {
           if (e.key === "Enter") {
@@ -259,7 +271,6 @@ const ListEntry = (props: ListEntryProps) => {
           key={item.id}
           ref={provided.innerRef}
           {...provided.draggableProps}
-          // {...provided.dragHandleProps}
           style={getItemStyle(
             snapshot.isDragging,
             provided.draggableProps.style
