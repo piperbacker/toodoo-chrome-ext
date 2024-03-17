@@ -14,6 +14,13 @@ interface ListItem {
   id: string;
   value: string;
   isDone: boolean;
+  tag?: Tag;
+}
+
+interface Tag {
+  id: string;
+  value: string;
+  color: string;
 }
 
 enum Themes {
@@ -23,6 +30,7 @@ enum Themes {
 }
 
 const themes = [Themes.Space, Themes.Spring, Themes.Greenery];
+const tagColors = ["#00A19F", "#A55221", "#628636", "#596700", "#B03045"];
 
 interface AddItemProps {
   onAdd: (value: string) => void;
@@ -38,6 +46,7 @@ interface ListEntryProps {
 }
 
 const initList: ListItem[] = [];
+const initTags: Tag[] = [];
 
 const getItemStyle = (
   isDragging: boolean,
@@ -57,6 +66,8 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
 function App() {
   const [theme, setTheme] = useState<Themes>(Themes.Space);
   const [list, setList] = useState<ListItem[]>(initList);
+  const [tags, setTags] = useState<Tag[]>(initTags);
+  const [newTag, setNewTag] = useState<string>("");
 
   useMemo(() => {
     const listData = window.localStorage.getItem("TOODOO_LIST");
@@ -64,6 +75,9 @@ function App() {
 
     const themeData = window.localStorage.getItem("TOODOO_THEME");
     if (themeData !== null) setTheme(JSON.parse(themeData));
+
+    const tagData = window.localStorage.getItem("TOODOO_TAGS");
+    if (tagData !== null) setTags(JSON.parse(tagData));
   }, []);
 
   useMemo(() => {
@@ -73,6 +87,10 @@ function App() {
   useMemo(() => {
     window.localStorage.setItem("TOODOO_THEME", JSON.stringify(theme));
   }, [theme]);
+
+  useMemo(() => {
+    window.localStorage.setItem("TOODOO_TAGS", JSON.stringify(tags));
+  }, [tags]);
 
   function handleItemAdd(input: string) {
     if (input !== "") {
@@ -105,6 +123,13 @@ function App() {
         return item;
       })
     );
+  }
+
+  function handleTagAdd(input: string) {
+    if (input !== "") {
+      const idx = tags.length;
+      setTags([...tags, { id: uuidv4(), value: input, color: tagColors[idx] }]);
+    }
   }
 
   function onDragEnd(result: any, filteredList: ListItem[]) {
@@ -228,10 +253,25 @@ function App() {
 
       <section id="footer">
         <div id="tags">
-          <p>tags:</p>
-          <button>important</button>
-          <button>school</button>
-          <button>misc</button>
+          <input
+            id="tag-input"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+            placeholder="tags"
+            autoComplete="off"
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                handleTagAdd(newTag);
+                setNewTag("");
+              }
+            }}
+          />
+          {tags.map((tag) => (
+            <button key={tag.id} style={{ background: tag.color }}>
+              {tag.value}
+            </button>
+          ))}
         </div>
       </section>
     </div>

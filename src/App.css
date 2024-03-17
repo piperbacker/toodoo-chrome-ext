@@ -48,9 +48,8 @@
   width: 450px;
   height: 550px;
   text-align: left;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: var(--border-radius);
-  border: 2px solid lightblue;
   font-family: var(--main-font);
   background: var(--gradient);
   color: var(--main-text-color);
@@ -78,12 +77,17 @@ input {
   background: none;
   font-family: var(--main-font);
   width: 230px;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--main-text-color);
 }
 
 input:focus {
   outline: none;
+}
+
+input::placeholder {
+  color: var(--main-text-color);
+  opacity: 50%;
 }
 
 a {
@@ -214,11 +218,6 @@ section.toodoo input#add-input {
   box-shadow: 0 2px 0px -1px var(--main-text-color);
 }
 
-section.toodoo input#add-input::placeholder {
-  color: var(--main-text-color);
-  opacity: 50%;
-}
-
 section.toodoo li#new-item button#add-btn {
   margin-left: 20px;
 }
@@ -271,6 +270,17 @@ section.toodoo button.delete-btn {
 #tags {
   gap: 5px;
   display: flex;
+}
+
+input#tag-input {
+  width: 60px;
+  box-shadow: 0 2px 0px -1px transparent;
+  transition: all 200ms ease-in;
+}
+
+input#tag-input:hover {
+  box-shadow: 0 2px 0px -1px var(--main-text-color);
+  transition: all 200ms ease-out;
 }
 
 /* --- Custom Checkbox --- */
