@@ -8,8 +8,8 @@
   --main-font: "Amiko", sans-serif;
 }
 
-[data-color-theme="space"] {
-  --main-bg: #ffffff26;
+/* [data-color-theme="space"] {
+  --main-color-transparent: #ffffff26;
   --main-color: #25095d;
   --secondary-color: #b03045;
   --main-text-color: white;
@@ -18,30 +18,42 @@
     var(--secondary-color),
     var(--main-color) 80%
   );
+} */
+
+[data-color-theme="sunrise"] {
+  --main-color-transparent: #ffffff80;
+  --main-color: #ffffff;
+  --secondary-color: #f7bed9;
+  --main-text-color: #1c3863;
+  --main-text-color-transparent: #1c386380;
+  --gradient: linear-gradient(#d4f7fe, #ffcabc 70%, #f7bed9 90%, #be25cc 120%);
 }
 
-[data-color-theme="spring"] {
-  --main-bg: #18282f59;
-  --main-color: #8bcdd3;
-  --secondary-color: #ffc7a5;
-  --main-text-color: #111c21;
-  --gradient: radial-gradient(
-    circle at bottom center,
-    var(--secondary-color),
-    var(--main-color) 80%
-  );
+[data-color-theme="day"] {
+  --main-color-transparent: #fff1b480;
+  --main-color: #fff1b4;
+  --secondary-color: #95daff;
+  --main-text-color: #08834f;
+  --main-text-color-transparent: #08834f80;
+  --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
 }
 
-[data-color-theme="greenery"] {
-  --main-bg: #ffffff26;
-  --main-color: #0e5932;
-  --secondary-color: #c1aa4d;
-  --main-text-color: white;
-  --gradient: radial-gradient(
-    circle at bottom center,
-    var(--secondary-color),
-    var(--main-color) 95%
-  );
+[data-color-theme="sunset"] {
+  --main-color-transparent: #fff1b480;
+  --main-color: #fff1b4;
+  --secondary-color: #95daff;
+  --main-text-color: #08834f;
+  --main-text-color-transparent: #08834f80;
+  --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
+}
+
+[data-color-theme="night"] {
+  --main-color-transparent: #141e4080;
+  --main-color: #141e40;
+  --secondary-color: #be25cc;
+  --main-text-color: #fad8e8;
+  --main-text-color-transparent: #fad8e880;
+  --gradient: linear-gradient(#be25cc, #8030aa 10%, #352a7b, #0a1423 110%);
 }
 
 .App {
@@ -63,11 +75,14 @@ button {
   border-radius: var(--border-radius);
   font-family: var(--main-font);
   color: var(--main-color);
+  overflow: hidden;
+  max-height: 20px;
+  max-width: 100px;
   transition: all 200ms ease-in;
 }
 
 button:hover {
-  background: var(--main-color);
+  background: var(--secondary-color);
   color: var(--main-text-color);
   transition: all 200ms ease-out;
 }
@@ -110,7 +125,7 @@ ul {
 }
 
 #header {
-  background: var(--main-bg);
+  background: var(--main-color-transparent);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -139,6 +154,12 @@ ul {
   transition: all 200ms ease-in;
 }
 
+#header div.all-themes button {
+  height: 20px;
+  width: 20px;
+  background: var(--main-text-color);
+}
+
 #header div.all-themes button:hover {
   background: var(--secondary-color);
 }
@@ -153,7 +174,7 @@ ul {
 
 #body {
   padding: var(--padding);
-  height: 85%;
+  height: 80%;
   overflow-y: auto;
 }
 
@@ -162,7 +183,7 @@ ul {
 }
 
 section.toodoo {
-  background: var(--main-bg);
+  background: var(--main-color-transparent);
   padding: 10px 0;
   border-radius: var(--border-radius);
 }
@@ -183,15 +204,43 @@ section.toodoo li input {
 }
 
 section.toodoo li.list-entry button {
-  opacity: 0;
+  display: none;
 }
 
-section.toodoo li.list-entry button svg {
+section.toodoo li.list-entry button.dnd-button svg {
   margin-top: 2px;
 }
 
 section.toodoo li.list-entry:hover > button {
-  opacity: 1;
+  display: flex;
+}
+
+section.toodoo li.list-entry:hover > div.tags-dropdown button {
+  display: flex;
+}
+
+section.toodoo span.entry-tag {
+  width: 57px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  max-height: 20px;
+  overflow: auto;
+}
+
+section.toodoo li.list-entry:hover > span.entry-tag {
+  display: none;
+}
+
+section.toodoo .tags-dropdown-list {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 3px;
+  position: absolute;
+}
+
+section.toodoo .tags-dropdown:hover > .tags-dropdown-list {
+  display: flex;
 }
 
 section.toodoo li > input {
@@ -200,7 +249,7 @@ section.toodoo li > input {
 }
 
 section.toodoo li:hover > input {
-  box-shadow: 0 2px 0px -1px var(--main-text-color);
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
   transition: all 200ms ease-out;
 }
 
@@ -215,7 +264,7 @@ section.toodoo li#new-item div {
 }
 
 section.toodoo input#add-input {
-  box-shadow: 0 2px 0px -1px var(--main-text-color);
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
 }
 
 section.toodoo li#new-item button#add-btn {
@@ -245,7 +294,7 @@ section.toodoo button.dnd-btn {
 }
 
 section.toodoo button.dnd-btn:hover {
-  fill: var(--main-color);
+  fill: var(--secondary-color);
 }
 
 section.toodoo button.delete-btn {
@@ -270,6 +319,7 @@ section.toodoo button.delete-btn {
 #tags {
   gap: 5px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 input#tag-input {
@@ -279,7 +329,7 @@ input#tag-input {
 }
 
 input#tag-input:hover {
-  box-shadow: 0 2px 0px -1px var(--main-text-color);
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
   transition: all 200ms ease-out;
 }
 
@@ -317,8 +367,8 @@ input#tag-input:hover {
 }
 
 .entry-checkbox input:checked ~ .entry-custom-checkbox {
-  outline: 2px solid var(--main-color);
-  background-color: var(--main-color);
+  outline: 2px solid var(--main-text-color);
+  background-color: var(--main-text-color);
   transition: all 200ms ease;
 }
 
@@ -335,8 +385,8 @@ input#tag-input:hover {
 }
 
 .entry-checkbox:hover input ~ .entry-custom-checkbox {
-  outline: 2px solid var(--main-color);
-  background-color: var(--main-color);
+  outline: 2px solid var(--main-text-color);
+  background-color: var(--main-text-color);
   transition: all 200ms ease;
 }
 
@@ -355,7 +405,7 @@ input#tag-input:hover {
   top: 0px;
   width: 3px;
   height: 8px;
-  border: solid var(--main-text-color);
+  border: solid var(--main-color);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   transition: all 200ms ease;

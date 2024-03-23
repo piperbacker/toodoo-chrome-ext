@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   DragDropContext,
@@ -24,12 +24,18 @@ interface Tag {
 }
 
 enum Themes {
-  Space = "space",
-  Spring = "spring",
-  Greenery = "greenery",
+  Sunrise = "sunrise",
+  Day = "day",
+  Sunset = "sunset",
+  Night = "night",
 }
 
-const themes = [Themes.Space, Themes.Spring, Themes.Greenery];
+const themes = [
+  { theme: Themes.Sunrise, color: "#f7bed9" },
+  { theme: Themes.Day, color: "#95daff" },
+  { theme: Themes.Sunset, color: "#be25cc" },
+  { theme: Themes.Night, color: "#0a1423" },
+];
 const tagColors = ["#00A19F", "#A55221", "#628636", "#596700", "#B03045"];
 
 interface AddItemProps {
@@ -39,10 +45,10 @@ interface AddItemProps {
 interface ListEntryProps {
   entry: ListItem;
   draggableProps?: DraggableProvidedDraggableProps;
+  tags: Tag[];
   index: number;
   onUpdate: (value: ListItem) => void;
   onDelete: (id: string) => void;
-  onDone: (value: ListItem) => void;
 }
 
 const initList: ListItem[] = [];
@@ -64,7 +70,7 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
 };
 
 function App() {
-  const [theme, setTheme] = useState<Themes>(Themes.Space);
+  const [theme, setTheme] = useState<Themes>(Themes.Sunrise);
   const [list, setList] = useState<ListItem[]>(initList);
   const [tags, setTags] = useState<Tag[]>(initTags);
   const [newTag, setNewTag] = useState<string>("");
@@ -102,7 +108,7 @@ function App() {
     setList(
       list.map((item) => {
         if (item.id === currentItem.id) {
-          item.value = currentItem.value;
+          item = currentItem;
         }
         return item;
       })
@@ -112,17 +118,6 @@ function App() {
   function handleItemDelete(currentId: string) {
     const updatedList = list.filter((item) => item.id !== currentId);
     setList(updatedList);
-  }
-
-  function handleItemDone(currentItem: ListItem) {
-    setList(
-      list.map((item) => {
-        if (item.id === currentItem.id) {
-          item.isDone = currentItem.isDone;
-        }
-        return item;
-      })
-    );
   }
 
   function handleTagAdd(input: string) {
@@ -150,14 +145,21 @@ function App() {
         <p>toodoo</p>
         <div className="header-btns">
           <div className="themes">
-            <button id="selected-theme">{theme}</button>
+            <button
+              id="selected-theme"
+              style={{ background: "var(--main-color)" }}
+            >
+              t
+            </button>
             <div className="all-themes">
               {themes
-                .filter((t) => t !== theme)
-                .map((theme, index) => (
-                  <button onClick={() => setTheme(theme)} key={theme}>
-                    {theme}
-                  </button>
+                .filter((t) => t.theme !== theme)
+                .map((t, index) => (
+                  <button
+                    onClick={() => setTheme(t.theme)}
+                    key={t.theme}
+                    style={{ background: t.color }}
+                  ></button>
                 ))}
             </div>
           </div>
@@ -193,10 +195,10 @@ function App() {
                             <ListEntry
                               key={item.id}
                               entry={item}
+                              tags={tags}
                               index={index}
                               onUpdate={handleItemUpdate}
                               onDelete={handleItemDelete}
-                              onDone={handleItemDone}
                             />
                           ))}
                         {provided.placeholder}
@@ -232,10 +234,10 @@ function App() {
                               <ListEntry
                                 key={item.id}
                                 entry={item}
+                                tags={tags}
                                 index={index}
                                 onUpdate={handleItemUpdate}
                                 onDelete={handleItemDelete}
-                                onDone={handleItemDone}
                               />
                             ))}
                           {provided.placeholder}
@@ -346,7 +348,7 @@ const ListEntry = (props: ListEntryProps) => {
               onChange={() => {
                 setChecked(!checked);
                 item.isDone = !item.isDone;
-                props.onDone(item);
+                props.onUpdate(item);
               }}
             />
             <span className="entry-custom-checkbox"></span>
@@ -365,6 +367,28 @@ const ListEntry = (props: ListEntryProps) => {
               }
             }}
           />
+          {item.tag && (
+            <span className="entry-tag" style={{ background: item.tag?.color }}>
+              {item.tag.value}
+            </span>
+          )}
+          <div className="tags-dropdown">
+            <button style={{ background: item.tag?.color }}>+</button>
+            <div className="tags-dropdown-list">
+              {props.tags.map((tag) => (
+                <button
+                  key={tag.id}
+                  onClick={() => {
+                    item.tag = tag;
+                    props.onUpdate(item);
+                  }}
+                  style={{ background: tag.color }}
+                >
+                  {tag.value}
+                </button>
+              ))}
+            </div>
+          </div>
           <button {...provided.dragHandleProps} className="dnd-btn icon-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
