@@ -18,18 +18,24 @@ export interface Tag {
   color: string;
 }
 
-enum Theme {
+enum ThemeName {
   Sunrise = "Sunrise",
   Day = "Daylight",
   Sunset = "Sunset",
   Night = "Night",
 }
 
-const themes = [
-  { theme: Theme.Sunrise, color: "#f7bed9", icon: "sun" },
-  { theme: Theme.Day, color: "#95daff", icon: "cloud" },
-  { theme: Theme.Sunset, color: "#be25cc", icon: "sun-waves" },
-  { theme: Theme.Night, color: "#0a1423", icon: "moon" },
+interface Theme {
+  name: ThemeName;
+  color: string;
+  icon: string;
+}
+
+const themes: Theme[] = [
+  { name: ThemeName.Sunrise, color: "#f7bed9", icon: "clear_day" },
+  { name: ThemeName.Day, color: "#95daff", icon: "partly_cloudy_day" },
+  { name: ThemeName.Sunset, color: "#be25cc", icon: "wb_twilight" },
+  { name: ThemeName.Night, color: "#0a1423", icon: "moon_stars" },
 ];
 
 const tagColors = ["#00A19F", "#A55221", "#628636", "#596700", "#B03045"];
@@ -46,7 +52,7 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
 };
 
 function App() {
-  const [theme, setTheme] = useState<Theme>(Theme.Sunrise);
+  const [theme, setTheme] = useState<Theme>(themes[0]);
   const [list, setList] = useState<ListItem[]>(initList);
   const [tags, setTags] = useState<Tag[]>(initTags);
   // const [newTag, setNewTag] = useState<string>("");
@@ -114,7 +120,7 @@ function App() {
   }
 
   return (
-    <div className="App" data-color-theme={theme}>
+    <div className="App" data-color-theme={theme.name}>
       <section id="header">
         <p>toodoo</p>
         <div className="header-btns">
@@ -122,20 +128,26 @@ function App() {
             <button
               id="selected-theme"
               style={{ background: "var(--main-color)" }}
-              title={theme}
+              title={theme.name}
             >
-              t
+              <span className="material-symbols-outlined theme-icon">
+                {theme.icon}
+              </span>
             </button>
             <div className="all-themes">
               {themes
-                .filter((t) => t.theme !== theme)
+                .filter((t) => t !== theme)
                 .map((t, index) => (
                   <button
-                    onClick={() => setTheme(t.theme)}
-                    key={t.theme}
+                    onClick={() => setTheme(t)}
+                    key={index}
                     style={{ background: t.color }}
-                    title={t.theme}
-                  ></button>
+                    title={t.name}
+                  >
+                    <span className="material-symbols-outlined theme-icon">
+                      {t.icon}
+                    </span>
+                  </button>
                 ))}
             </div>
           </div>

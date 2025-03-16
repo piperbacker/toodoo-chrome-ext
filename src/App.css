@@ -169,6 +169,12 @@ ul {
   display: flex;
 }
 
+#header span.theme-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+}
+
 #top {
   height: 60px;
 }
