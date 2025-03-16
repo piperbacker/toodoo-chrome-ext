@@ -20,7 +20,7 @@
   );
 } */
 
-[data-color-theme="sunrise"] {
+[data-color-theme="Sunrise"] {
   --main-color-transparent: #ffffff80;
   --main-color: #ffffff;
   --secondary-color: #f7bed9;
@@ -29,7 +29,7 @@
   --gradient: linear-gradient(#d4f7fe, #ffcabc 70%, #f7bed9 90%, #be25cc 120%);
 }
 
-[data-color-theme="day"] {
+[data-color-theme="Daylight"] {
   --main-color-transparent: #fff1b480;
   --main-color: #fff1b4;
   --secondary-color: #95daff;
@@ -38,7 +38,8 @@
   --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
 }
 
-[data-color-theme="sunset"] {
+/* TODO PB edit colors, identical to daylight */
+[data-color-theme="Sunset"] {
   --main-color-transparent: #fff1b480;
   --main-color: #fff1b4;
   --secondary-color: #95daff;
@@ -47,7 +48,7 @@
   --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
 }
 
-[data-color-theme="night"] {
+[data-color-theme="Night"] {
   --main-color-transparent: #141e4080;
   --main-color: #141e40;
   --secondary-color: #be25cc;
@@ -204,7 +205,8 @@ section.toodoo li input {
 }
 
 section.toodoo li.list-entry button {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 section.toodoo li.list-entry button.dnd-button svg {
@@ -212,7 +214,8 @@ section.toodoo li.list-entry button.dnd-button svg {
 }
 
 section.toodoo li.list-entry:hover > button {
-  display: flex;
+  visibility: visible;
+  pointer-events: all;
 }
 
 section.toodoo li.list-entry:hover > div.tags-dropdown button {
