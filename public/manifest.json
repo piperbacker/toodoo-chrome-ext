@@ -1,18 +1,14 @@
 {
   "name": "TooDoo",
-  "description": "Make everday to-do lists with useful tags and cute themes.",
+  "description": "It's time todoo something. Build todo lists with a colorful interface inspired by the day night cycle.",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
-    "16": "get_started16.png",
-    "32": "get_started32.png",
-    "48": "get_started48.png",
-    "128": "get_started128.png"
+    "64": "todoo_64.png",
+    "128": "todoo_128.png"
   },
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": [
-    "storage"
-  ]
+  "permissions": ["storage"]
 }

@@ -152,6 +152,7 @@ function App() {
           <div id="left">
             <section className="toodoo">
               <ul>
+                <AddEntry onAdd={handleItemAdd} />
                 <DragDropContext
                   onDragEnd={(result) => {
                     onDragEnd(
@@ -180,7 +181,6 @@ function App() {
                     )}
                   </Droppable>
                 </DragDropContext>
-                <AddEntry onAdd={handleItemAdd} />
               </ul>
             </section>
             <div id="middle"></div>
