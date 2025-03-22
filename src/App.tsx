@@ -33,9 +33,9 @@ interface Theme {
 
 const themes: Theme[] = [
   { name: ThemeName.Sunrise, color: "#f7bed9", icon: "clear_day" },
-  { name: ThemeName.Day, color: "#95daff", icon: "partly_cloudy_day" },
-  { name: ThemeName.Sunset, color: "#be25cc", icon: "wb_twilight" },
-  { name: ThemeName.Night, color: "#0a1423", icon: "moon_stars" },
+  { name: ThemeName.Day, color: "#68d0d6", icon: "partly_cloudy_day" },
+  { name: ThemeName.Sunset, color: "#ef843f", icon: "wb_twilight" },
+  { name: ThemeName.Night, color: "#be25cc", icon: "moon_stars" },
 ];
 
 const tagColors = ["#00A19F", "#A55221", "#628636", "#596700", "#B03045"];
@@ -127,7 +127,7 @@ function App() {
           <div className="themes">
             <button
               id="selected-theme"
-              style={{ background: "var(--main-color)" }}
+              style={{ background: theme.color }}
               title={theme.name}
             >
               <span className="material-symbols-outlined theme-icon">
@@ -136,7 +136,7 @@ function App() {
             </button>
             <div className="all-themes">
               {themes
-                .filter((t) => t !== theme)
+                .filter((t) => t.name !== theme.name)
                 .map((t, index) => (
                   <button
                     onClick={() => setTheme(t)}

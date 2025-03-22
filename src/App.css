@@ -8,18 +8,6 @@
   --main-font: "Amiko", sans-serif;
 }
 
-/* [data-color-theme="space"] {
-  --main-color-transparent: #ffffff26;
-  --main-color: #25095d;
-  --secondary-color: #b03045;
-  --main-text-color: white;
-  --gradient: radial-gradient(
-    circle at bottom center,
-    var(--secondary-color),
-    var(--main-color) 80%
-  );
-} */
-
 [data-color-theme="Sunrise"] {
   --main-color-transparent: #ffffff80;
   --main-color: #ffffff;
@@ -32,20 +20,19 @@
 [data-color-theme="Daylight"] {
   --main-color-transparent: #fff1b480;
   --main-color: #fff1b4;
-  --secondary-color: #95daff;
+  --secondary-color: #68d0d6;
   --main-text-color: #08834f;
   --main-text-color-transparent: #08834f80;
   --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
 }
 
-/* TODO PB edit colors, identical to daylight */
 [data-color-theme="Sunset"] {
-  --main-color-transparent: #fff1b480;
-  --main-color: #fff1b4;
-  --secondary-color: #95daff;
-  --main-text-color: #08834f;
-  --main-text-color-transparent: #08834f80;
-  --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
+  --main-color-transparent: #fdf74c80;
+  --main-color: #fdf74c;
+  --secondary-color: #ef843f;
+  --main-text-color: #b63c47;
+  --main-text-color-transparent: #b63c4780;
+  --gradient: linear-gradient(#fdf74c, #fad042 15%, #ef843f, #b63c47 80%);
 }
 
 [data-color-theme="Night"] {
@@ -62,7 +49,6 @@
   height: 550px;
   text-align: left;
   font-size: 12px;
-  border-radius: var(--border-radius);
   font-family: var(--main-font);
   background: var(--gradient);
   color: var(--main-text-color);
@@ -137,12 +123,18 @@ ul {
   border-radius: 4px 4px 0 0;
 }
 
-#header button {
-  margin: 0 3px;
+#header button#selected-theme {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  color: white;
 }
 
 #header .header-btns {
   display: flex;
+  gap: 5px;
+  align-items: center;
   transition: all 200ms ease-out;
 }
 
@@ -158,7 +150,7 @@ ul {
 #header div.all-themes button {
   height: 20px;
   width: 20px;
-  background: var(--main-text-color);
+  color: white;
 }
 
 #header div.all-themes button:hover {
