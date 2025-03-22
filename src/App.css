@@ -29,10 +29,10 @@
 [data-color-theme="Sunset"] {
   --main-color-transparent: #fdf74c80;
   --main-color: #fdf74c;
-  --secondary-color: #ef843f;
-  --main-text-color: #b63c47;
+  --secondary-color: #e58d57;
+  --main-text-color: #bd555f;
   --main-text-color-transparent: #b63c4780;
-  --gradient: linear-gradient(#fdf74c, #fad042 15%, #ef843f, #b63c47 80%);
+  --gradient: linear-gradient(#fdf74c, #fad042 15%, #e58d57, #bd555f 90%);
 }
 
 [data-color-theme="Night"] {
@@ -45,8 +45,8 @@
 }
 
 .App {
-  width: 450px;
-  height: 550px;
+  width: 375px;
+  height: 450px;
   text-align: left;
   font-size: 12px;
   font-family: var(--main-font);
@@ -168,12 +168,13 @@ ul {
 }
 
 #top {
-  height: 60px;
+  /* height: 60px; */
 }
 
 #body {
   padding: var(--padding);
-  height: 80%;
+  padding-top: 20px;
+  height: 400px;
   overflow-y: auto;
 }
 

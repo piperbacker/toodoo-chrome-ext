@@ -34,7 +34,7 @@ interface Theme {
 const themes: Theme[] = [
   { name: ThemeName.Sunrise, color: "#f7bed9", icon: "clear_day" },
   { name: ThemeName.Day, color: "#68d0d6", icon: "partly_cloudy_day" },
-  { name: ThemeName.Sunset, color: "#ef843f", icon: "wb_twilight" },
+  { name: ThemeName.Sunset, color: "#e58d57", icon: "wb_twilight" },
   { name: ThemeName.Night, color: "#be25cc", icon: "moon_stars" },
 ];
 
