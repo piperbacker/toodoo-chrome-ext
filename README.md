@@ -1,4 +1,4 @@
-## It's time Todoo something.
+## It's time Toodoo something.
 
 Build todo lists with a colorful interface inspired by the day night cycle built using Typescript and React.
 
@@ -10,7 +10,7 @@ Build todo lists with a colorful interface inspired by the day night cycle built
 
 In the project directory, run:
 
-### `npm start`
+# `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -19,7 +19,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 In the project directory, run
 
-### `npm run build`
+# `npm run build`
 
 In your Chrome browser go to chrome://extensions/
 
@@ -31,7 +31,7 @@ Click the **Load unpacked** button and select the `build` folder
 
 • Figma \
 • Affinity Designer \
-• Material icons \
+• Material icons
 
 ## More Info
 

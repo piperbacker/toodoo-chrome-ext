@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import "./App.css";
-import { ListEntry } from "./TodooList/list-entry";
-import { AddEntry } from "./TodooList/add-entry";
+import { ListEntry } from "./ToodooList/list-entry";
+import { AddEntry } from "./ToodooList/add-entry";
 
 export interface ListItem {
   id: string;
