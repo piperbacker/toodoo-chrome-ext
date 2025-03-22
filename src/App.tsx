@@ -38,8 +38,6 @@ const themes: Theme[] = [
   { name: ThemeName.Night, color: "#be25cc", icon: "moon_stars" },
 ];
 
-const tagColors = ["#00A19F", "#A55221", "#628636", "#596700", "#B03045"];
-
 const initList: ListItem[] = [];
 const initTags: Tag[] = [];
 
@@ -55,7 +53,6 @@ function App() {
   const [theme, setTheme] = useState<Theme>(themes[0]);
   const [list, setList] = useState<ListItem[]>(initList);
   const [tags, setTags] = useState<Tag[]>(initTags);
-  // const [newTag, setNewTag] = useState<string>("");
 
   useMemo(() => {
     const listData = window.localStorage.getItem("TOODOO_LIST");
@@ -99,13 +96,6 @@ function App() {
     const updatedList = list.filter((item) => item.id !== currentId);
     setList(updatedList);
   }
-
-  // function handleTagAdd(input: string) {
-  //   if (input !== "") {
-  //     const idx = tags.length;
-  //     setTags([...tags, { id: uuidv4(), value: input, color: tagColors[idx] }]);
-  //   }
-  // }
 
   function onDragEnd(result: any, filteredList: ListItem[]) {
     if (!result.destination) {
@@ -235,30 +225,6 @@ function App() {
           <div id="right"></div>
         </div>
       </div>
-
-      {/* <section id="footer">
-        <div id="tags">
-          <input
-            id="tag-input"
-            type="text"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            placeholder="tags"
-            autoComplete="off"
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                handleTagAdd(newTag);
-                setNewTag("");
-              }
-            }}
-          />
-          {tags.map((tag) => (
-            <button key={tag.id} style={{ background: tag.color }}>
-              {tag.value}
-            </button>
-          ))}
-        </div>
-      </section> */}
     </div>
   );
 }

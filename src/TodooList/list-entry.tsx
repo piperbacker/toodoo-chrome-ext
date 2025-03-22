@@ -66,28 +66,6 @@ export const ListEntry = (props: ListEntryProps) => {
               }
             }}
           />
-          {/* {item.tag && (
-            <span className="entry-tag" style={{ background: item.tag?.color }}>
-              {item.tag.value}
-            </span>
-          )} */}
-          {/* <div className="tags-dropdown">
-            <button style={{ background: item.tag?.color }}>+</button>
-            <div className="tags-dropdown-list">
-              {props.tags.map((tag) => (
-                <button
-                  key={tag.id}
-                  onClick={() => {
-                    item.tag = tag;
-                    props.onUpdate(item);
-                  }}
-                  style={{ background: tag.color }}
-                >
-                  {tag.value}
-                </button>
-              ))}
-            </div>
-          </div> */}
           <button
             {...provided.dragHandleProps}
             className="dnd-btn icon-btn"
