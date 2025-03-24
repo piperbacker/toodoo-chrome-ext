@@ -6,7 +6,7 @@ Build todo lists with a colorful interface inspired by the day night cycle built
 
 ## Run
 
-# Open in webpage
+### Open in webpage
 
 In the project directory, run:
 
@@ -14,13 +14,13 @@ In the project directory, run:
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-# Load unpacked extension
+### Load unpacked extension
 
 In the project directory, run
 
 `npm run build`
 
-In your Chrome browser go to chrome://extensions/
+In your Chrome browser go to `chrome://extensions/`
 
 Make sure you have **Developer tools** toggled on
 
