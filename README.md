@@ -10,16 +10,15 @@ Build todo lists with a colorful interface inspired by the day night cycle built
 
 In the project directory, run:
 
-# `npm start`
+`npm start`
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # Load unpacked extension
 
 In the project directory, run
 
-# `npm run build`
+`npm run build`
 
 In your Chrome browser go to chrome://extensions/
 
