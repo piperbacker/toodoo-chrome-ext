@@ -4,9 +4,9 @@ Build todo lists with a colorful interface inspired by the day night cycle built
 
 ## Preview
 
-![New Project (1)] (https://github.com/piperbacker/toodoo-chrome-ext/blob/master/public/preview_1.png)
+![preview_1](https://github.com/user-attachments/assets/b37ddbcc-567f-4a52-b1d9-228746261dc5)
 
-![New Project (2)] (https://github.com/piperbacker/toodoo-chrome-ext/blob/master/public/preview_2.png)
+![preview_2](https://github.com/user-attachments/assets/eadae56d-8438-43ba-b3d2-bea3e9e3bcc5)
 
 ## Run
 
