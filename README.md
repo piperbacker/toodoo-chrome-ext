@@ -4,9 +4,13 @@ Build todo lists with a colorful interface inspired by the day night cycle built
 
 ## Preview
 
+![New Project (1)] (https://github.com/piperbacker/toodoo-chrome-ext/blob/master/public/preview_1.png)
+
+![New Project (2)] (https://github.com/piperbacker/toodoo-chrome-ext/blob/master/public/preview_2.png)
+
 ## Run
 
-### Open in webpage
+### Load as webpage
 
 In the project directory, run:
 
@@ -14,7 +18,7 @@ In the project directory, run:
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Load unpacked extension
+### Load as unpacked extension
 
 In the project directory, run
 
