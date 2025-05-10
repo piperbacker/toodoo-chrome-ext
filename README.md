@@ -35,7 +35,3 @@ Click the **Load unpacked** button and select the `build` folder
 • Figma \
 • Affinity Designer \
 • Material icons
-
-## More Info
-
-To learn more about my thought process and mockup designs when creating this extension, check out my post on [dribbble](https://dribbble.com/shots/23807920-Portfolio-Website-Design).
