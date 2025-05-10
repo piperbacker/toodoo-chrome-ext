@@ -5,12 +5,11 @@ import {
   NotDraggingStyle,
   DraggableProvidedDraggableProps,
 } from "@hello-pangea/dnd";
-import { ListItem, Tag } from "../App";
+import { ListItem } from "../App";
 
 interface ListEntryProps {
   entry: ListItem;
   draggableProps?: DraggableProvidedDraggableProps;
-  tags: Tag[];
   index: number;
   onUpdate: (value: ListItem) => void;
   onDelete: (id: string) => void;

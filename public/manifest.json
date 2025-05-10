@@ -4,8 +4,8 @@
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
-    "64": "toodoo_64.png",
-    "128": "toodoo_128.png"
+    "64": "toodoo_flat_64.png",
+    "128": "toodoo_flat_128.png"
   },
   "action": {
     "default_popup": "index.html"

@@ -9,13 +9,6 @@ export interface ListItem {
   id: string;
   value: string;
   isDone: boolean;
-  tag?: Tag;
-}
-
-export interface Tag {
-  id: string;
-  value: string;
-  color: string;
 }
 
 enum ThemeName {
@@ -38,9 +31,6 @@ const themes: Theme[] = [
   { name: ThemeName.Night, color: "#be25cc", icon: "moon_stars" },
 ];
 
-const initList: ListItem[] = [];
-const initTags: Tag[] = [];
-
 const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -50,9 +40,9 @@ const reorder = (list: ListItem[], startIndex: number, endIndex: number) => {
 };
 
 function App() {
+  const initList: ListItem[] = [];
   const [theme, setTheme] = useState<Theme>(themes[0]);
   const [list, setList] = useState<ListItem[]>(initList);
-  const [tags, setTags] = useState<Tag[]>(initTags);
 
   useMemo(() => {
     const listData = window.localStorage.getItem("TOODOO_LIST");
@@ -60,9 +50,6 @@ function App() {
 
     const themeData = window.localStorage.getItem("TOODOO_THEME");
     if (themeData !== null) setTheme(JSON.parse(themeData));
-
-    const tagData = window.localStorage.getItem("TOODOO_TAGS");
-    if (tagData !== null) setTags(JSON.parse(tagData));
   }, []);
 
   useMemo(() => {
@@ -73,13 +60,20 @@ function App() {
     window.localStorage.setItem("TOODOO_THEME", JSON.stringify(theme));
   }, [theme]);
 
-  useMemo(() => {
-    window.localStorage.setItem("TOODOO_TAGS", JSON.stringify(tags));
-  }, [tags]);
-
   function handleItemAdd(input: string) {
     if (input !== "") {
-      setList([...list, { value: input, isDone: false, id: uuidv4() }]);
+      const updatedList = list;
+      updatedList.push({
+        value: input,
+        isDone: false,
+        id: uuidv4(),
+      });
+      // updatedList.unshift({
+      //   value: input,
+      //   isDone: false,
+      //   id: uuidv4(),
+      // });
+      setList(updatedList);
     }
   }
 
@@ -170,7 +164,6 @@ function App() {
                             <ListEntry
                               key={item.id}
                               entry={item}
-                              tags={tags}
                               index={index}
                               onUpdate={handleItemUpdate}
                               onDelete={handleItemDelete}
@@ -207,7 +200,6 @@ function App() {
                               <ListEntry
                                 key={item.id}
                                 entry={item}
-                                tags={tags}
                                 index={index}
                                 onUpdate={handleItemUpdate}
                                 onDelete={handleItemDelete}
