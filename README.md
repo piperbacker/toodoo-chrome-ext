@@ -1,6 +1,6 @@
 ## It's time Toodoo something.
 
-Build todo lists with a colorful interface inspired by the day night cycle built using Typescript and React.
+Build to-do lists with a colorful interface inspired by the day night cycle built using Typescript and React.
 
 ## Preview
 
