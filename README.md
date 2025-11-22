@@ -17,9 +17,9 @@ https://github.com/user-attachments/assets/112dc4c3-3ec3-4a74-b494-9e3efe359de8
 
 In the project directory, run:
 
-`npm start`
+`npm run dev`
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open your browser at http://localhost:5173/src/popup/popup.html to preview the popup UI.
 
 ### Load as unpacked extension
 
