@@ -1,0 +1,416 @@
+@charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Amiko:wght@400;600;700&display=swap");
+
+:root {
+  --margin: 0 10px;
+  --padding: 0 10px;
+  --border-radius: 4px;
+  --main-font: "Amiko", sans-serif;
+}
+
+[data-color-theme="Sunrise"] {
+  --main-color-transparent: #ffffff80;
+  --main-color: #ffffff;
+  --secondary-color: #f7bed9;
+  --main-text-color: #1c3863;
+  --main-text-color-transparent: #1c386380;
+  --gradient: linear-gradient(#d4f7fe, #ffcabc 70%, #f7bed9 90%, #be25cc 120%);
+}
+
+[data-color-theme="Daylight"] {
+  --main-color-transparent: #fff1b480;
+  --main-color: #fff1b4;
+  --secondary-color: #68d0d6;
+  --main-text-color: #08834f;
+  --main-text-color-transparent: #08834f80;
+  --gradient: linear-gradient(#ffe573, #bbfdfb 15%, #a2deff, #d4f7fe 80%);
+}
+
+[data-color-theme="Sunset"] {
+  --main-color-transparent: #fdf74c80;
+  --main-color: #fdf74c;
+  --secondary-color: #e58d57;
+  --main-text-color: #bd555f;
+  --main-text-color-transparent: #b63c4780;
+  --gradient: linear-gradient(#fdf74c, #fad042 15%, #e58d57, #bd555f 90%);
+}
+
+[data-color-theme="Night"] {
+  --main-color-transparent: #141e4080;
+  --main-color: #141e40;
+  --secondary-color: #be25cc;
+  --main-text-color: #fad8e8;
+  --main-text-color-transparent: #fad8e880;
+  --gradient: linear-gradient(#be25cc, #8030aa 10%, #352a7b, #0a1423 110%);
+}
+
+.App {
+  width: 375px;
+  height: 450px;
+  text-align: left;
+  font-size: 12px;
+  font-family: var(--main-font);
+  background: var(--gradient);
+  color: var(--main-text-color);
+}
+
+button,
+a.button-link {
+  background: var(--main-text-color);
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  font-family: var(--main-font);
+  color: var(--main-color);
+  overflow: hidden;
+  max-height: 20px;
+  max-width: 100px;
+  transition: all 200ms ease-in;
+}
+
+a.button-link {
+  font-weight: normal;
+  height: 20px;
+  width: 20px;
+}
+
+button:hover {
+  background: var(--secondary-color);
+  color: var(--main-text-color);
+  transition: all 200ms ease-out;
+}
+
+input {
+  border: none;
+  background: none;
+  font-family: var(--main-font);
+  width: 230px;
+  font-size: 14px;
+  color: var(--main-text-color);
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: var(--main-text-color);
+  opacity: 50%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#header {
+  background: var(--main-color-transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+  padding: var(--padding);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#header button#selected-theme {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  color: white;
+}
+
+#header .header-btns {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  transition: all 200ms ease-out;
+}
+
+#header div.all-themes {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  position: absolute;
+  padding-top: 5px;
+  transition: all 200ms ease-in;
+}
+
+#header div.all-themes button {
+  height: 20px;
+  width: 20px;
+  color: white;
+}
+
+#header div.all-themes button:hover {
+  background: var(--secondary-color);
+}
+
+#header .themes:hover > .all-themes {
+  display: flex;
+}
+
+#header span.theme-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+#body {
+  padding: var(--padding);
+  padding-top: 20px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+#container {
+  display: flex;
+}
+
+section.toodoo {
+  background: var(--main-color-transparent);
+  padding: 10px 0;
+  border-radius: var(--border-radius);
+}
+
+section.toodoo ul {
+  margin: 10px 0;
+  padding: 0;
+}
+
+section.toodoo li {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+}
+
+section.toodoo li input {
+  margin: 0 8px;
+}
+
+section.toodoo li.list-entry button {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+section.toodoo li.list-entry button.dnd-button svg {
+  margin-top: 2px;
+}
+
+section.toodoo li.list-entry:hover > button {
+  visibility: visible;
+  pointer-events: all;
+}
+
+section.toodoo li.list-entry:hover > div.tags-dropdown button {
+  display: flex;
+}
+
+section.toodoo span.entry-tag {
+  width: 57px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  max-height: 20px;
+  overflow: auto;
+}
+
+section.toodoo li.list-entry:hover > span.entry-tag {
+  display: none;
+}
+
+section.toodoo .tags-dropdown-list {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 3px;
+  position: absolute;
+}
+
+section.toodoo .tags-dropdown:hover > .tags-dropdown-list {
+  display: flex;
+}
+
+section.toodoo li > input {
+  box-shadow: 0 2px 0px -1px transparent;
+  transition: all 200ms ease-in;
+}
+
+section.toodoo li:hover > input {
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
+  transition: all 200ms ease-out;
+}
+
+section.toodoo li#new-item {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+section.toodoo li#new-item div {
+  width: 15px;
+}
+
+section.toodoo input#add-input {
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
+}
+
+section.toodoo li#new-item button#add-btn {
+  margin-left: 20px;
+}
+
+section.toodoo .icon-btn {
+  display: flex;
+  align-items: center;
+  fill: var(--main-color);
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+}
+
+section.toodoo .icon-btn:hover {
+  fill: var(--main-text-color);
+}
+
+section.toodoo button.dnd-btn {
+  background: none;
+  fill: var(--main-text-color);
+  height: 20px;
+  width: 20px;
+  margin-right: 2px;
+  cursor: grab;
+}
+
+section.toodoo button.dnd-btn:hover {
+  fill: var(--secondary-color);
+}
+
+section.toodoo button.delete-btn {
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+}
+
+#middle {
+  height: 30px;
+}
+
+#right {
+  width: 85px;
+}
+
+#footer {
+  padding: var(--padding);
+  padding-top: 30px;
+}
+
+#tags {
+  gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+input#tag-input {
+  width: 60px;
+  box-shadow: 0 2px 0px -1px transparent;
+  transition: all 200ms ease-in;
+}
+
+input#tag-input:hover {
+  box-shadow: 0 2px 0px -1px var(--main-text-color-transparent);
+  transition: all 200ms ease-out;
+}
+
+/* --- Custom Checkbox --- */
+.entry-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.entry-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.entry-custom-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 12px;
+  width: 12px;
+  outline: 2px solid var(--main-text-color);
+  border-radius: var(--border-radius);
+  transition: all 200ms ease;
+}
+
+.entry-checkbox input:checked ~ .entry-custom-checkbox {
+  outline: 2px solid var(--main-text-color);
+  background-color: var(--main-text-color);
+  transition: all 200ms ease;
+}
+
+.entry-custom-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input:checked ~ .entry-custom-checkbox:after {
+  display: none;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input ~ .entry-custom-checkbox {
+  outline: 2px solid var(--main-text-color);
+  background-color: var(--main-text-color);
+  transition: all 200ms ease;
+}
+
+.entry-checkbox:hover input ~ .entry-custom-checkbox:after {
+  transition: all 200ms ease;
+  display: block;
+}
+
+.entry-checkbox input:checked ~ .entry-custom-checkbox:after {
+  display: block;
+  transition: all 200ms ease;
+}
+
+.entry-checkbox .entry-custom-checkbox:after {
+  left: 3.4px;
+  top: 0px;
+  width: 3px;
+  height: 8px;
+  border: solid var(--main-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transition: all 200ms ease;
+}

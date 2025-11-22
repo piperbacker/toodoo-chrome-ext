@@ -1,0 +1,24 @@
+{
+  "name": "TooDoo",
+  "description": "It's time todoo something. Build todo lists with a colorful interface inspired by the day night cycle.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "64": "toodoo_flat_64.png",
+    "128": "toodoo_flat_128.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content.js"]
+    }
+  ]
+}
